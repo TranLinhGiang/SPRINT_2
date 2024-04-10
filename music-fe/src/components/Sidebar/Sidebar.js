@@ -1,15 +1,10 @@
+import React from 'react';
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import "../../Css/HomePage.css";
-import { useState } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
-function Sidebar() {
-  const [language, setLanguage] = useState(""); // Trạng thái cho ngôn ngữ được chọn
 
-  const changeLanguage = (selectedLanguage) => {
-    setLanguage(selectedLanguage); // Cập nhật trạng thái với ngôn ngữ được chọn
-  };
+function Sidebar({ language, changeLanguage }) {
   return (
     <>
       {/* Sidebar-1 Start */}
@@ -47,12 +42,11 @@ function Sidebar() {
       <br />
       <br />
       <br />
-
       {/* Sidebar-2 End */}
 
       {/* Legal Information */}
       <div className="backgound-div">
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en" ? "Legal" : "Pháp lý"}
           </p>
@@ -62,7 +56,7 @@ function Sidebar() {
               : "Trung tâm an toàn và quyền riêng tư"}
           </p>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en" ? "Privacy policy" : "Chính sách quyền riêng tư"}
           </p>
@@ -70,7 +64,7 @@ function Sidebar() {
             {language === "en" ? "Cookie" : "Cookie"}
           </p>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en"
               ? "Introducing advertising"
@@ -80,12 +74,12 @@ function Sidebar() {
             {language === "en" ? "Accessibility support" : "Hỗ trợ tiếp cận"}
           </p>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en" ? "Cookie" : "Cookie"}
           </p>
         </div>
-        {/* Thêm các mục khác với điều kiện ngôn ngữ tương ứng */}
+        {/* Add more items based on language condition */}
       </div>
       <br />
       <br />
@@ -97,17 +91,13 @@ function Sidebar() {
           value={language}
           onChange={(e) => changeLanguage(e.target.value)}
         >
-          {(!language || language === "") && (
-            <option className="option-select" value="">
-              {language === "en" ? "Select Language" : "Chọn Ngôn Ngữ"}
-            </option>
-          )}
           <option className="option-select" value="vn">Việt Nam</option>
           <option className="option-select" value="en">English</option>
-          {/* Thêm các ngôn ngữ khác nếu cần */}
+          {/* Add more languages if needed */}
         </select>
       </div>
     </>
   );
 }
+
 export default Sidebar;

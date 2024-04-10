@@ -1,0 +1,25 @@
+.modal-header{
+       background: #0d704f !important;
+   
+}
+
+.custom-modal-body {
+    background-image: url('https://cdn.tgdd.vn/Files/2022/06/28/1443138/spotify-karaoke-2_1280x720-800-resize.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .form-control{
+    background: none !important;
+    border: solid 2px black;
+  }
+  .form-label{
+    font-weight: bold;
+    color: black;
+  }
+  .modal-footer{
+       background: #0d704f !important;
+  }
+  .btn-primary {
+    --bs-btn-border-color: none !important;
+}

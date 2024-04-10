@@ -1,8 +1,11 @@
 import "../../Css/Body.css";
 import Footer from "../Footers/Footer";
-function Body() {
+import Header from "../Header/Header";
+function Body({ language }) {
+
   return (
     <div className="color-body-homePage">
+       {/* <Header language={language} handleShow={handleShow} /> Truyền handleShow xuống component Header */}
       <div className="container-fluid gallery pb-5">
         <div className="container pb-5">
           <div className="pb-5">
@@ -11,7 +14,7 @@ function Body() {
               data-wow-delay="0.1s"
               style={{ position: "relative", top: "34px" }}
             >
-              Nghệ sĩ phổ biến
+              {language === "en" ? "Popular Artists" : "Nghệ sĩ phổ biến"}
             </h6>
           </div>
           <div className="tab-className wow fadeInUp" data-wow-delay="0.1s">
@@ -36,8 +39,16 @@ function Body() {
                         alt=""
                       />
                       <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                        <p className="text-white m-0 text-img">Sơn Tùng MTP</p>
-                        <p className="text-white m-0 text-img-small">Nghệ sĩ</p>
+                        <span className="background-gray">
+                          {" "}
+                          {/* Thêm div để tạo vùng màu xám nhẹ */}
+                          <p className="text-white m-0 ">
+                            Sơn Tùng MTP
+                          </p>
+                          <p className="m-0 text-img-small">
+                            {language === "en" ? "Artist" : "Nghệ sĩ"}
+                          </p>
+                          </span>
                       </div>
                       <button
                         type="button"
@@ -68,8 +79,13 @@ function Body() {
                         alt=""
                       />
                       <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                        <p className="text-white m-0 text-img">Gdragon</p>
-                        <p className="text-white m-0 text-img-small">Nghệ sĩ</p>
+                      <span className="background-gray">
+                        <p className="text-white m-0 ">Gdragon</p>
+                        <p className=" m-0 text-img-small">
+                          {" "}
+                          {language === "en" ? "Artist" : "Nghệ sĩ"}
+                        </p>
+                        </span>
                       </div>
                       <button
                         type="button"
@@ -101,8 +117,13 @@ function Body() {
                         alt=""
                       />
                       <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                        <p className="text-white m-0 text-img">Jack-J97</p>
-                        <p className="text-white m-0 text-img-small">Nghệ sĩ</p>
+                      <span className="background-gray">
+                        <p className="text-white m-0 ">Jack-J97</p>
+                        <p className=" m-0 text-img-small">
+                          {" "}
+                          {language === "en" ? "Artist" : "Nghệ sĩ"}
+                        </p>
+                        </span>
                       </div>
                       <button
                         type="button"
@@ -133,8 +154,14 @@ function Body() {
                         alt=""
                       />
                       <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                        <p className="text-white m-0 text-img">Mono</p>
-                        <p className="text-white m-0 text-img-small">Nghệ sĩ</p>
+                      <span className="background-gray">
+
+                        <p className="text-white m-0">Mono</p>
+                        <p className=" m-0 text-img-small">
+                          {" "}
+                          {language === "en" ? "Artist" : "Nghệ sĩ"}
+                        </p>
+                        </span>
                       </div>
                       <button
                         type="button"
@@ -165,8 +192,16 @@ function Body() {
                         alt=""
                       />
                       <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                        <p className="text-white m-0 text-img">Soobin Hoàng Sơn</p>
-                        <p className="text-white m-0 text-img-small">Nghệ sĩ</p>
+                      <span className="background-gray">
+
+                        <p className="text-white m-0">
+                          Soobin Hoàng Sơn
+                        </p>
+                        <p className=" m-0 text-img-small">
+                          {" "}
+                          {language === "en" ? "Artist" : "Nghệ sĩ"}
+                        </p>
+                        </span>
                       </div>
                       <button
                         type="button"
@@ -197,8 +232,14 @@ function Body() {
                         alt=""
                       />
                       <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                        <p className="text-white m-0 text-img">Phương Ly</p>
-                        <p className="text-white m-0 text-img-small">Nghệ sĩ</p>
+                      <span className="background-gray">
+
+                        <p className="text-white m-0 ">Phương Ly</p>
+                        <p className="m-0 text-img-small">
+                          {" "}
+                          {language === "en" ? "Artist" : "Nghệ sĩ"}
+                        </p>
+                        </span>
                       </div>
                       <button
                         type="button"
@@ -211,7 +252,6 @@ function Body() {
                       </button>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>

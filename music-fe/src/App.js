@@ -11,10 +11,21 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/" element={<HomePage/>}></Route>
         </Routes>
       </BrowserRouter>
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-left" // Điều chỉnh vị trí của toast ở góc bên trái dưới cùng
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
     </>
   );
 }

@@ -598,3 +598,13 @@
     background-color: #161616;
     color: white;
 }
+.footer .btn.btn-link {
+    display: block;
+    margin-bottom: 5px;
+    padding: 0;
+    text-align: left;
+    color: #8e9094;
+    font-weight: normal;
+    text-transform: capitalize;
+    transition: .3s;
+}
