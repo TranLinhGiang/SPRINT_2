@@ -1,8 +1,10 @@
 package com.example.spotifybackend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "song")
 public class Song {
     @Id
@@ -10,18 +12,23 @@ public class Song {
     private Integer id;
     private  String fileName;
     private String title;
-    private String artist;
     private  boolean isFavorited;
+
+    @OneToOne(mappedBy = "song")
+    private Artist artist;
+
+
 
     public Song() {
     }
 
-    public Song(Integer id, String fileName, String title, String artist, boolean isFavorited) {
+    public Song(Integer id, String fileName, String title, boolean isFavorited, Artist artist, Category category) {
         this.id = id;
         this.fileName = fileName;
         this.title = title;
-        this.artist = artist;
         this.isFavorited = isFavorited;
+        this.artist = artist;
+        this.category = category;
     }
 
     public Integer getId() {
@@ -48,14 +55,6 @@ public class Song {
         this.title = title;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
     public boolean isFavorited() {
         return isFavorited;
     }
@@ -63,6 +62,23 @@ public class Song {
     public void setFavorited(boolean favorited) {
         isFavorited = favorited;
     }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @ManyToOne()
     @JoinColumn(name = "id_category")
     private Category category;
