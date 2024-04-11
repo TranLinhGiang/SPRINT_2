@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { CheckBox } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 function Header({ language }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
@@ -84,16 +85,20 @@ function Header({ language }) {
               </Form.Label>
               <Form.Control type="password" />
             </Form.Group>
-          <CheckBox></CheckBox> <strong>{language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}</strong>
+          {/* <CheckBox></CheckBox> <strong>{language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}</strong> */}
+          <input type="checkbox"></input><strong>{language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}</strong>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button style={{"background": '#454040', "color": 'black'}}  onClick={handleClose}>
             {language === "en" ? "Close" : "Thoát"}
           </Button>
+          <Link to={"/loginPage"}>
           <Button style={{"background": '#454040', "color": 'black'}}>
             {language === "en" ? "Login" : "Đăng nhập"}
           </Button>
+          </Link>
+          
         </Modal.Footer>
       </Modal>
     </>

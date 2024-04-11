@@ -17,6 +17,13 @@ function HomePage() {
   useEffect(() => {
     document.title = "Spotify-Web Player: Music for averyone";
   });
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <>
