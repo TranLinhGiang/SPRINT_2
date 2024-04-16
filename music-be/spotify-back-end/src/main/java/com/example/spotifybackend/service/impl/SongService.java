@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SongService implements ISongService {
@@ -16,4 +17,11 @@ public class SongService implements ISongService {
     public List<Song> getAllSong() {
         return iSongRepository.getAllSong();
     }
+
+    @Override
+    public Song findById(int id) {
+        return iSongRepository.findById(id);
+    }
+
+
 }
