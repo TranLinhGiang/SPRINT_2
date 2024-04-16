@@ -52,11 +52,8 @@
   background-size: cover; /* Đảm bảo hình ảnh sẽ được kéo căng để phù hợp với kích thước của phần tử */
   background-position: center; /* Hiển thị hình ảnh ở trung tâm của phần tử */
 }
-.body-loginPage{
-    background: black;
-    height: 100%;
-}
-.audio-footer{
-    background: black;
-
+.footer-loginPage{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

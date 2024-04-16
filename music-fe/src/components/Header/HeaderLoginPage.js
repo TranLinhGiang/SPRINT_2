@@ -23,7 +23,7 @@ function HeaderLoginPage({ language }) {
   const handleShow = () => setShow(true);
   return (
     <>
-      {/* <nav
+      <nav
         className="navbar navbar-expand-lg background-header navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn bdr-rds fl-wr"
         data-wow-delay="0.1s"
       >
@@ -57,7 +57,7 @@ function HeaderLoginPage({ language }) {
             </DropdownMenu>
           </Dropdown>
         </div>
-      </nav> */}
+      </nav>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

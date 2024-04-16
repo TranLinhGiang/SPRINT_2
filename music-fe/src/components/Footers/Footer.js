@@ -251,6 +251,7 @@ function Footer({ language }) {
                           type="submit"
                           name="submit"
                           value="Gửi"
+                          style={{"background": '#1FD860'}}
                         />
                       </div>
                     </form>

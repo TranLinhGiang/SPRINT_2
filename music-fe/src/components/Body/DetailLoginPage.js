@@ -3,6 +3,7 @@ import "../../Css/DetailLoginPage.css";
 import * as method from "../../Service/method";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
     const [song, setSong] = useState(null);
@@ -37,15 +38,16 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
         variant="top" 
         src={selectedSong.image} 
         alt={selectedSong.title} 
-        style={{ width: '100%' }} // Đảm bảo hình ảnh căn chỉnh theo chiều rộng của vùng chứa
+        style={{ width: '100%'}} // Đảm bảo hình ảnh căn chỉnh theo chiều rộng của vùng chứa
       />
     </div>
     <Card.Body className="card-detail">
-      <Card.Title className="text-detail">{selectedSong.title}</Card.Title>
+      <Card.Title className="text-detail" style={{ color: 'white'}}>{selectedSong.title}</Card.Title>
       <Card.Text>
-      <p className="text-detail">Ca sỹ: {selectedSong.artist}</p>
+      <p className="text-detail" style={{ color: 'white'}}>Ca sỹ: {selectedSong.artist}</p>
       </Card.Text>
       <button className="text-detail button-detail" onClick={() => playSelectedSong(selectedSong.id)}>Phát lại</button>
+      <button className="btn-heart"><FavoriteBorderIcon className="heart"/></button>
     </Card.Body>
   </Card>
   

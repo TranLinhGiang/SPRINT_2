@@ -26,3 +26,13 @@
     position: relative;
     top: 15px;
 }
+.btn-heart{
+    position: relative;
+    left: 13px;
+    border: none;
+    border-radius: 19px;
+    background: none;
+}
+.heart{
+    color: white;
+}
