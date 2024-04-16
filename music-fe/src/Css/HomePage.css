@@ -47,3 +47,16 @@
     color: white;
     
 }
+.home-page {
+    background-image: url('https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-size: cover; /* Đảm bảo hình ảnh sẽ được kéo căng để phù hợp với kích thước của phần tử */
+  background-position: center; /* Hiển thị hình ảnh ở trung tâm của phần tử */
+}
+.body-loginPage{
+    background: black;
+    height: 100%;
+}
+.audio-footer{
+    background: black;
+
+}

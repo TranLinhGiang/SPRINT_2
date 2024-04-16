@@ -3,6 +3,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import LanguageIcon from "@mui/icons-material/Language";
+import "../../Css/SidebarHomePage.css";
 
 function Sidebar({ language, changeLanguage }) {
   return (

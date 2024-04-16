@@ -1,0 +1,28 @@
+.display-detail{
+    display: flex;
+}
+.play-and-detail{
+    position: relative;
+    left: 36px;
+    top: 13px;
+}
+.img-detail{
+    width: 60%;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: rgba(231, 225, 225, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+/* .card-body{
+    background: #0C9267 !important;
+} */
+.text-detail{
+    font-weight: bold;
+}
+.button-detail{
+    border: none;
+    border-radius: 3px;
+}
+.card-detail{
+    position: relative;
+    top: 15px;
+}

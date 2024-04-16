@@ -268,3 +268,14 @@ width: 25px;
     display: block;
     background: #1B1A1A;
 }
+.icon-header{
+    border-radius: 20px;
+    width: 50px;
+    background: none;
+    border: none;
+}
+.icon{
+    position: relative;
+    top: -4px;
+    color: gray;
+}
