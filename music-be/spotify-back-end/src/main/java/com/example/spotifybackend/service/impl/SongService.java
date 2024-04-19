@@ -23,5 +23,10 @@ public class SongService implements ISongService {
         return iSongRepository.findById(id);
     }
 
+    @Override
+    public void save(Song song) {
+        iSongRepository.save(song);
+    }
+
 
 }

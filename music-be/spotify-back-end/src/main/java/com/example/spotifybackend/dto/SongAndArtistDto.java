@@ -1,5 +1,6 @@
 package com.example.spotifybackend.dto;
 
+import com.example.spotifybackend.model.Category;
 import jakarta.validation.constraints.NotNull;
 
 public class SongAndArtistDto {
@@ -18,17 +19,21 @@ public class SongAndArtistDto {
     @NotNull
 
     private String image;
+    @NotNull
+    private String category;
+
 
     public SongAndArtistDto() {
     }
 
-    public SongAndArtistDto(Integer id, String fileName, String title, String artist, boolean isFavorited, String image) {
+    public SongAndArtistDto(Integer id, String fileName, String title, String artist, boolean isFavorited, String image, String category) {
         this.id = id;
         this.fileName = fileName;
         this.title = title;
         this.artist = artist;
         this.isFavorited = isFavorited;
         this.image = image;
+        this.category = category;
     }
 
     public Integer getId() {
@@ -77,5 +82,13 @@ public class SongAndArtistDto {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

@@ -10,4 +10,6 @@ public interface ISongService {
     List<Song> getAllSong();
 
     Song findById(int id);
+
+    void save(Song song);
 }

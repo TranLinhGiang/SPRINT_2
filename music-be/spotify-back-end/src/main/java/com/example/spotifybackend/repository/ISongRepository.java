@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ISongRepository extends JpaRepository<Song, Integer>, JpaSpecificationExecutor<Song> {
     @Query(value = "select * from song", nativeQuery = true)
-    List<Song> getAllSong();        
+    List<Song> getAllSong();
 
 
     @Query(value = "SELECT song.id, song.title,song.is_favorited, song.is_favorited AS favorited, song.file_name, song.artist_id, song.category_id, " +
