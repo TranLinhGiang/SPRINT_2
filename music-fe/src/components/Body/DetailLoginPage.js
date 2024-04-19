@@ -31,7 +31,7 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
   return (
     <div className="detail-page-container">
     {selectedSong && (
-    <Card style={{ width: '100%' }}>
+    <Card style={{ width: '100%',height: '495px',background: 'black' }}>
     <div style={{ maxHeight: '330px', overflow: 'hidden' }}> 
       {/* Bọc hình ảnh trong một div với chiều cao tối đa, để hình ảnh không vượt quá chiều cao này */}
       <Card.Img 

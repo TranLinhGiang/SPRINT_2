@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "../../Css/LoginPage.css";
+import { useEffect, useState } from "react";
+import "../../Css/HomePageAdmin.css";
+import HeaderAdmin from "../Header/HeaderAdmin";
 import * as method from "../../Service/method";
-import "../../Css/HomePage.css";
+import DetailLoginPage from "../Body/DetailLoginPage";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import DetailLoginPage from "./DetailLoginPage";
-import HeaderLoginPage from "../Header/HeaderLoginPage";
-import SidebarUser from "../Sidebar/SidebarUser";
+import SidebarAdmin from './../Sidebar/SidebarAdmin';
 
-function BodyLoginPage({ language }) {
+
+function HomePageAdmin() {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
@@ -45,49 +45,23 @@ function BodyLoginPage({ language }) {
     audioPlayer.play();
   };
   return (
-    <div className="body-loginPage" >
-    
-      <div style={{ display: "flex", "background-image": "linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50))"}}>
-        <div
-          style={{
-            background: "#1B1A1A",
-            margin: "1px",
-            "border-radius": "10px",
-          }}
-          className="col-md-1 col-lg-1"
-        >
-          <SidebarUser />
+    <>
+      <div className="body">
+        <div >
+          <HeaderAdmin />
         </div>
-        <div
-          className="col-md-11 col-lg-11 container"
-          style={{height: '100vh' }}
-
-        >
-          <div>
-            {/* Header Start */}
-            <HeaderLoginPage />
-            {/* Header End */}
+        <div className="display-body-admin">
+          {/* Sidebar Start */}
+          <div  className="col-md-1 col-lg-1">
+            <SidebarAdmin/>
           </div>
-          <div
-            style={{
-              display: "flex",
-              "flex-wrap": "wrap",
-              // background: "black",
-            }}
-            className="container "
-          >
+   
+          {/* Body Start */}
+          <div className=" display-body-admin flex-wrap">
             {/* Danh sách ca sĩ Start */}
-            <div
-              className="col-md-4 col-lg-4"
-              style={{ color: "white"
-              // , background: "black"  
-            }}
-            >
-              
-              
-              <br />
-              <div style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-              <h5 style={{margin: '4px' }}>Danh sách nghệ sĩ ___</h5>
+          <div className="col-md-4 col-lg-4">
+          <div style={{background:'none', margin: '4px',"border-radius": '4px'}}>
+              <h5 style={{margin: '4px', color: 'white' }}>Danh sách nghệ sĩ ___</h5>
               <ol 
                 className="ol-scroll"
                 style={{ overflowY: "auto", maxHeight: "500px" }} // Thêm kiểu overflow cho cuộn chuột
@@ -112,7 +86,10 @@ function BodyLoginPage({ language }) {
                               top: "9px",
                             }}
                           >
+                            <span style={{color: 'white'}}>
                             {index + 1}
+                            </span>
+                           
                           </div>
                           <img
                             src={representativeSong.image}
@@ -124,7 +101,7 @@ function BodyLoginPage({ language }) {
                             }}
                           />
                           <div>
-                            <p>{artist}</p>
+                            <p style={{color: 'white'}}>{artist}</p>
                           </div>
                         </div>
                       </div>
@@ -133,20 +110,13 @@ function BodyLoginPage({ language }) {
                 )}
               </ol>
               </div>
-            
-            </div>
+          </div>
             {/* Danh sách ca sĩ End */}
-            {/* Danh sách bài hát Start */}
-            <div
-              className="col-md-4 col-lg-4"
-              style={{ color: "white"
-              // , background: "black" 
-            }}
-            >
 
-              <br />
+          {/* Danh sách bài hát Start */}
+              <div className="col-md-4 col-lg-4">
               <div  style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-              <h5 style={{margin: '4px'}}>Danh sách bài hát ___</h5>
+              <h5 style={{margin: '4px', color: 'white'}}>Danh sách bài hát ___</h5>
               <ol
                 className="ol-scroll"
                 style={{ overflowY: "auto", maxHeight: "465px" }}
@@ -190,13 +160,11 @@ function BodyLoginPage({ language }) {
                 ))}
               </ol>
               </div>
-            
-            </div>
-            {/* Danh sách bài hát End */}
-            {/* Chi tiết bài hát Start */}
-            <div className="col-md-4 col-lg-4"
-             style={{ background: "none" }}
-             >
+              </div>
+          {/* Danh sách bài hát End */}
+
+              {/* Footer Start */}
+              <div  className="col-md-4 col-lg-4">
               <div  style={{background:'none', margin: '4px',"border-radius": '4px'}}>
                 <br/>
                 <DetailLoginPage
@@ -205,12 +173,15 @@ function BodyLoginPage({ language }) {
                   playSelectedSong={playSelectedSong}
                 />
               </div>
-            </div>
-            {/* Chi tiết bài hát End */}
+              </div>
+              {/* Footer End */}
+
           </div>
+              
         </div>
-      </div>
-      {/* footer Start */}
+      
+
+         {/* footer Start */}
       <div>
         <div className="footer-loginPage">
           <audio
@@ -228,7 +199,8 @@ function BodyLoginPage({ language }) {
         </div>
       </div>
       {/* footer End */}
-    </div>
+      </div>
+    </>
   );
 }
-export default BodyLoginPage;
+export default HomePageAdmin;

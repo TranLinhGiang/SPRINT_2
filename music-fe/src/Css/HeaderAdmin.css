@@ -1,0 +1,14 @@
+.display-header-admin{
+    display: flex;
+}
+.logo-admin{
+    width: 100%;
+    height: 87px;
+}
+.title-header-admin{
+    text-align: center;
+    color: white;
+    position: relative;
+    top: 10px;
+    white-space: nowrap;
+}

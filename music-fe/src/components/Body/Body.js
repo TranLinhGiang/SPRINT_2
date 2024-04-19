@@ -1,6 +1,4 @@
 import "../../Css/Body.css";
-import Footer from "../Footers/Footer";
-import Header from "../Header/Header";
 import * as method from "../../Service/method";
 import { useEffect, useState } from "react";
 

@@ -8,6 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./components/HomePage/LoginPage";
 import { useState } from "react";
 import BodyLoginPage from "./components/Body/BodyLoginPage";
+import HomePageAdmin from "./components/HomePage/HomePageAdmin";
+import SpotifyList from "./components/HomePage/SpotifyListAdmin";
+import CreateSpotify from "./components/HomePage/SpotifyCreate";
 
 function App() {
  
@@ -17,6 +20,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>}></Route>
           <Route path="/loginPage" element={<LoginPage />}></Route>
+          <Route path="/admin" element={<HomePageAdmin />}></Route>
+          <Route path="/list" element={<SpotifyList />}></Route>
+          <Route path="/add" element={<CreateSpotify />}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer

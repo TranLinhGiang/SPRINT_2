@@ -1,59 +1,62 @@
-.display{
-    display: flex;
-}
-.home-page{
-    background: #000000;
-}
-.btn-homePage{
-    width: 100%;
-    text-align: left;
-    margin: 6px;
-    height: 35px;
-    border: none;
-    background: none;
-    color: white;
-}
-.wap-homePage{
-    flex-wrap: wrap;
-}
-.backgound-div{
-    background: #1B1A1A;
-    padding: 12px;
-    border-radius: 10px;
-    height: auto;
-    
-}
-.pading-header{
-    padding: 20px;
-
-}
-.bdr-rds{
-    border-radius: 19px;
-}
-.color-text{
-    color: rgb(107, 105, 105);
-    font-size: smaller;
-}
-.select-language{
-    background: none;
-    color: gray;
-    border: none;
-}
-.icon-language{
-    color: white;
-}
-.option-select{
-    background: #1B1A1A;
-    color: white;
-    
+.display {
+  display: flex;
 }
 .home-page {
-    background-image: url('https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background: #000000;
+}
+.btn-homePage {
+  width: 100%;
+  text-align: left;
+  margin: 6px;
+  height: 35px;
+  border: none;
+  background: none;
+  color: white;
+  margin: 0;
+  white-space: nowrap; /* Ngăn tiêu đề và nghệ sĩ bị rớt xuống dòng */
+  overflow: hidden; /* Ẩn phần vượt quá kích thước của phần tử */
+  text-overflow: ellipsis; /* Hiển thị dấu chấm (...) khi tiêu đề hoặc nghệ sĩ quá dài */
+}
+.wap-homePage {
+  flex-wrap: wrap;
+}
+.backgound-div {
+  background: #1b1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  height: auto;
+}
+.pading-header {
+  padding: 20px;
+}
+.bdr-rds {
+  border-radius: 19px;
+}
+.color-text {
+  color: rgb(107, 105, 105);
+  font-size: smaller;
+}
+.select-language {
+  background: none;
+  color: gray;
+  border: none;
+}
+.icon-language {
+  color: white;
+}
+.option-select {
+  background: #1b1a1a;
+  color: white;
+}
+.home-page {
+  /* background-image: url("https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=600"); */
   background-size: cover; /* Đảm bảo hình ảnh sẽ được kéo căng để phù hợp với kích thước của phần tử */
   background-position: center; /* Hiển thị hình ảnh ở trung tâm của phần tử */
+  background-image: linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50));
 }
-.footer-loginPage{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+.footer-loginPage {
+  position: fixed;
+  /* top: 417px; */
+  bottom: 0;
+  width: 100%;
 }

@@ -1,4 +1,11 @@
-body{
+
+.display-body-admin{
+    display: flex;
+}
+.flex-wrap{
+    flex-wrap: wrap;
+}
+.body{
     /* --bs-body-bg: black; */
     background-image: linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50));
     background-size: cover; 

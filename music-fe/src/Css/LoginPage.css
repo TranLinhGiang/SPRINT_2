@@ -130,6 +130,10 @@
 }
 .artist-name {
   text-align: left;
+  margin: 0;
+  white-space: nowrap; /* Ngăn tiêu đề và nghệ sĩ bị rớt xuống dòng */
+  overflow: hidden; /* Ẩn phần vượt quá kích thước của phần tử */
+  text-overflow: ellipsis; /* Hiển thị dấu chấm (...) khi tiêu đề hoặc nghệ sĩ quá dài */
 }
 /* CSS cho thanh cuộn danh sách bài hát */
 .ol-scroll {
@@ -177,8 +181,12 @@
 }
 .body-loginPage{
   background: rgb(9, 9, 9);
-  
+  /* background-image: url("https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=600");
+  background-size: cover;
+  background-position: center; */
 }
 .audio-footer{
   background: #090909;
 }
+
+

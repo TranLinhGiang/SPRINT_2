@@ -1,41 +1,33 @@
-import "../../Css/Header.css";
-import { FaRegUserCircle } from "react-icons/fa";
+import "../../Css/HeaderAdmin.css";
 import { useState } from "react";
-import "../../Css/ModalLogin.css";
-
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import { FaRegUserCircle } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import {
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+  } from "reactstrap";
 import { Link } from "react-router-dom";
-function HeaderLoginPage({ language }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+function HeaderAdmin({language}){
+    const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  return (
-    <>
-      <nav
-        className="navbar navbar-expand-lg background-header navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn bdr-rds fl-wr"
-        data-wow-delay="0.1s"
-      >
-        <a href="index.html" className="navbar-brand ms-4 ms-lg-0">
-          <h1 className="mb-0">
-            <i className="fa fa-cut me-3"></i>
-            <img
-              className="size-logo-header"
-              src="img/Header/logo.png"
-              alt="Logo"
-            ></img>
-          </h1>
-        </a>
-        <button
+    return(
+        <>
+        <div className="display-header-admin">
+            <div className="col-md-2 col-lg-2">
+              <Link to={"/admin"}>
+              <img className="logo-admin" src="img/Header/logo-admin.png" alt=""></img>
+              </Link>                 
+            </div>
+            <div className="col-md-9 col-lg-9 title-header-admin"></div>
+            <div className="col-md-1 col-lg-1">
+            <button
           type="button"
           className="navbar-toggler me-4"
           data-bs-toggle="collapse"
@@ -55,9 +47,9 @@ function HeaderLoginPage({ language }) {
             </DropdownMenu>
           </Dropdown>
         </div>
-      </nav>
-
-      <Modal show={show} onHide={handleClose}>
+            </div>
+        </div>
+        <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-center">
             {language === "en" ? "Logout" : "Đăg xuất"}
@@ -82,7 +74,7 @@ function HeaderLoginPage({ language }) {
           </Link>
         </Modal.Footer>
       </Modal>
-    </>
-  );
+        </>
+    )
 }
-export default HeaderLoginPage;
+export default HeaderAdmin;
