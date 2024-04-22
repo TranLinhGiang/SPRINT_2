@@ -12,7 +12,7 @@ function Sidebar({ language, changeLanguage }) {
       <div className="backgound-div">
         <button className="btn-homePage">
           <img
-            src="/img/Header/icon-spotify.png"
+            src="/img/Header/logo.png"
             style={{ height: "23px" }}
             alt="Spotify logo"
           ></img>{" "}

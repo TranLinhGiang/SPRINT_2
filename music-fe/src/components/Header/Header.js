@@ -27,16 +27,17 @@ function Header({ language }) {
         className="navbar navbar-expand-lg background-header navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn bdr-rds fl-wr"
         data-wow-delay="0.1s"
       >
-        <a href="index.html" className="navbar-brand ms-4 ms-lg-0">
+        <Link to={"/loginPage"} className="navbar-brand ms-4 ms-lg-0">
           <h1 className="mb-0">
-            <i className="fa fa-cut me-3"></i>
-            <img
+          
+           <img
               className="size-logo-header"
               src="img/Header/logo.png"
-              alt="Logo"
+              alt=""
             ></img>
+           
           </h1>
-        </a>
+        </Link>
         <button
           type="button"
           className="navbar-toggler me-4"

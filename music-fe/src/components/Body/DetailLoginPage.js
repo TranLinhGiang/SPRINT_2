@@ -28,6 +28,10 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
     // Tìm bài hát tương ứng với selectedSongId
     const selectedSong = songs.find(song => song.id === selectedSongId);
 
+    // if(!song){
+    //   return <span>Loading...</span>
+    // }
+
   return (
     <div className="detail-page-container">
     {selectedSong && (

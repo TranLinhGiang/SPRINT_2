@@ -7,14 +7,42 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import * as method from "../../Service/method";
+import { ref, uploadBytes } from "firebase/storage";
+import { imageDB } from "../FireBase/Config";
+import { v4 } from "uuid";
 
 function CreateSpotify() {
   const [categories, setCategories] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [img, setImg] = useState("");
+  const [imgURL, setImgURL] = useState(""); // State để lưu URL của hình ảnh đã chọn
+  const [audioURL, setAudioURL] = useState(""); // State để lưu URL của hình ảnh đã chọn
+
   const navigate = useNavigate();
+  
+  const handleClick = async () => {
+    const imgRef = ref(imageDB, `files/${v4()}`);
+    try {
+      await uploadBytes(imgRef, img);
+      // Cập nhật URL của hình ảnh
+      setImgURL(imgRef.fullPath); // Sử dụng fullPath của imgRef làm URL cho hình ảnh
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+  
+  const handleClicks = async () => {
+    const audioRef = ref(imageDB, `files/${v4()}`);
+    try {
+      await uploadBytes(audioRef, audioURL);
+      // Cập nhật URL của âm thanh
+      setAudioURL(audioRef.fullPath); // Sử dụng fullPath của audioRef làm URL cho âm thanh
+    } catch (error) {
+      console.error("Error uploading audio:", error);
+    }
+  };
 
   const create = async (song) => {
-    await method.createSpotify(song);
+    await method.createSpotify(song); // Gửi dữ liệu bao gồm file MP3 đến máy chủ
     toast("Thêm mới thành công !");
     navigate("/list");
   };
@@ -50,7 +78,7 @@ function CreateSpotify() {
                 <div className="col-lg-6">
                   <div className="card-shadow">
                     <img
-                      src={selectedImage ? selectedImage : ""}
+                      src={imgURL}
                       className="img-fluid picture-create-admin"
                     />
                   </div>
@@ -127,19 +155,49 @@ function CreateSpotify() {
                           <div className="col-lg-12">
                             <div className="form-group mt-2">
                               <label>Hình ảnh</label>
+                              <br />
+
                               <Field
                                 type="file"
-                                className="form-control"
                                 name="image"
-                                style={{ color: "white" }}
-                                onChange={(e) => {
-                                  const file = e.target.files[0];
-                                  const imageUrl = URL.createObjectURL(file);
-                                  setSelectedImage(imageUrl);
-                                }}
+                                onChange={(e) => setImg(e.target.files[0])}
+                                className="form-control"
                               />
+                              <button type="button" onClick={handleClick}>
+                                Tải lên
+                              </button>
                             </div>
                           </div>
+                          <div className="col-lg-12">
+                            <div className="form-group mt-2">
+                              <label>Nhạc</label>
+                              <br />
+
+                              <Field
+                                type="file"
+                                name="fileName"
+                                onChange={(e) => setImg(e.target.files[0])}
+                                className="form-control"
+                              />
+                              <button type="button" onClick={handleClicks}>
+                                Tải lên
+                              </button>
+                            </div>
+                          </div>
+                          {/* <div className="col-lg-12">
+                            <div className="form-group mt-2">
+                              <label>Upload bài hát (file .mp3)</label>
+                              <Field
+                                type="file"
+                                name="fileName"
+                                onChange={(e) => setImg(e.target.files[0])}
+                                className="form-control"
+                              />
+                              <button type="button" onClick={handleClicks}>
+                                Tải nhạc lên
+                              </button>
+                            </div>
+                          </div> */}
 
                           <div className="col-lg-12">
                             <button
