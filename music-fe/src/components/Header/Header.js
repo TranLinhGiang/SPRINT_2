@@ -21,21 +21,23 @@ function Header({ language }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleLogin = (e) => {
+    console.log(e);
+  };
+
   return (
     <>
       <nav
         className="navbar navbar-expand-lg background-header navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn bdr-rds fl-wr"
         data-wow-delay="0.1s"
       >
-        <Link to={"/loginPage"} className="navbar-brand ms-4 ms-lg-0">
+        <Link to={"/"} className="navbar-brand ms-4 ms-lg-0">
           <h1 className="mb-0">
-          
-           <img
+            <img
               className="size-logo-header"
               src="img/Header/logo.png"
               alt=""
             ></img>
-           
           </h1>
         </Link>
         <button
@@ -72,7 +74,7 @@ function Header({ language }) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="custom-modal-body">
-          <Form>
+          <Form onSubmit={handleLogin}>
             <Form.Group controlId="formBasicUsername">
               <Form.Label>
                 {language === "en" ? "User name" : "Tên đăng nhập"}
@@ -86,16 +88,25 @@ function Header({ language }) {
               </Form.Label>
               <Form.Control type="password" />
             </Form.Group>
-          {/* <CheckBox></CheckBox> <strong>{language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}</strong> */}
-          <input type="checkbox"></input><strong>{language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}</strong>
+
+            <input type="checkbox"></input>
+            <strong>
+              {language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}
+            </strong>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button style={{"background": '#454040', "color": 'black'}}  onClick={handleClose}>
+          <Button
+            style={{ background: "#454040", color: "black" }}
+            onClick={handleClose}
+          >
             {language === "en" ? "Close" : "Thoát"}
           </Button>
-          <Link to={"/loginPage"}>
-          <Button style={{"background": '#454040', "color": 'black'}}>
+          <Link to={"/LoginPage"}>
+          <Button
+            type="submit"
+            style={{ background: "#454040", color: "black" }}
+          >
             {language === "en" ? "Login" : "Đăng nhập"}
           </Button>
           </Link>

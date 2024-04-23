@@ -13,7 +13,7 @@ function BodyLoginPage({ language }) {
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
 
   useEffect(() => {
-    document.title = "Spotify-Web Player: Music for averyone";
+    document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
       try {
         const result = await method.getAllSong();
@@ -41,13 +41,17 @@ function BodyLoginPage({ language }) {
   const playSelectedSong = (id) => {
     setSelectedSongId(id); // Truyền id của bài hát được chọn
     const audioPlayer = document.getElementById("audioPlayer");
-    audioPlayer.src = songs.find((song) => song.id === id).fileName; // Sử dụng id để lấy đường dẫn của bài hát
+    audioPlayer.src = songs?.find((song) => song.id === id).fileName; // Sử dụng id để lấy đường dẫn của bài hát
     audioPlayer.play();
   };
   return (
-    <div className="body-loginPage" >
-    
-      <div style={{ display: "flex", "background-image": "linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50))"}}>
+    <div className="body-loginPage">
+      <div
+        style={{
+          display: "flex",
+          "background-image": "linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50))",
+        }}
+      >
         <div
           style={{
             background: "#1B1A1A",
@@ -60,8 +64,7 @@ function BodyLoginPage({ language }) {
         </div>
         <div
           className="col-md-11 col-lg-11 container"
-          style={{height: '100vh' }}
-
+          style={{ height: "100vh" }}
         >
           <div>
             {/* Header Start */}
@@ -79,29 +82,95 @@ function BodyLoginPage({ language }) {
             {/* Danh sách ca sĩ Start */}
             <div
               className="col-md-4 col-lg-4"
-              style={{ color: "white"
-              // , background: "black"  
-            }}
+              style={{
+                color: "white",
+                // , background: "black"
+              }}
             >
-              
-              
               <br />
-              <div style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-              <h5 style={{margin: '4px' }}>Danh sách nghệ sĩ ___</h5>
-              <ol 
-                className="ol-scroll"
-                style={{ overflowY: "auto", maxHeight: "500px" }} // Thêm kiểu overflow cho cuộn chuột
+              <div
+                style={{
+                  background: "none",
+                  margin: "4px",
+                  "border-radius": "4px",
+                }}
               >
-                {Array.from(new Set(songs.map((song) => song.artist))).map(
-                  (artist, index) => {
-                    const artistSongs = songs.filter(
-                      (song) => song.artist === artist
-                    );
+                <h5 style={{ margin: "4px" }}>Danh sách nghệ sĩ ___</h5>
+                <ol
+                  className="ol-scroll"
+                  style={{ overflowY: "auto", maxHeight: "500px" }} // Thêm kiểu overflow cho cuộn chuột
+                >
+                  {Array.from(new Set(songs?.map((song) => song.artist))).map(
+                    (artist, index) => {
+                      const artistSongs = songs.filter(
+                        (song) => song.artist === artist
+                      );
 
-                    const representativeSong = artistSongs[0];
+                      const representativeSong = artistSongs[0];
 
-                    return (
-                      <div key={index} className="p-1">
+                      return (
+                        <div key={index} className="p-1">
+                          <div style={{ display: "flex" }}>
+                            <div
+                              style={{
+                                marginRight: "10px",
+                                fontFamily: "fantasy",
+                                fontSize: "22px",
+                                position: "relative",
+                                top: "9px",
+                              }}
+                            >
+                              {index + 1}
+                            </div>
+                            <img
+                              src={representativeSong.image}
+                              alt=""
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <div>
+                              <p>{artist}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </ol>
+              </div>
+            </div>
+            {/* Danh sách ca sĩ End */}
+            {/* Danh sách bài hát Start */}
+            <div
+              className="col-md-4 col-lg-4"
+              style={{
+                color: "white",
+                // , background: "black"
+              }}
+            >
+              <br />
+              <div
+                style={{
+                  background: "none",
+                  margin: "4px",
+                  "border-radius": "4px",
+                }}
+              >
+                <h5 style={{ margin: "4px" }}>Danh sách bài hát ___</h5>
+                <ol
+                  className="ol-scroll"
+                  style={{ overflowY: "auto", maxHeight: "465px" }}
+                >
+                  {songs?.map((song, index) => (
+                    <div
+                      key={song.id}
+                      className="p-1"
+                      onClick={() => playSelectedSong(song.id)}
+                    >
+                      <button className="button-div-list-song">
                         <div style={{ display: "flex" }}>
                           <div
                             style={{
@@ -114,8 +183,9 @@ function BodyLoginPage({ language }) {
                           >
                             {index + 1}
                           </div>
+                          <PlayArrowIcon className="play-and-detail" />
                           <img
-                            src={representativeSong.image}
+                            src={song.image}
                             alt=""
                             style={{
                               width: "50px",
@@ -124,81 +194,27 @@ function BodyLoginPage({ language }) {
                             }}
                           />
                           <div>
-                            <p>{artist}</p>
+                            <div className="artist-name">{song.title}</div>
+                            <div className="artist-name">{song.artist}</div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  }
-                )}
-              </ol>
+                      </button>
+                    </div>
+                  ))}
+                </ol>
               </div>
-            
-            </div>
-            {/* Danh sách ca sĩ End */}
-            {/* Danh sách bài hát Start */}
-            <div
-              className="col-md-4 col-lg-4"
-              style={{ color: "white"
-              // , background: "black" 
-            }}
-            >
-
-              <br />
-              <div  style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-              <h5 style={{margin: '4px'}}>Danh sách bài hát ___</h5>
-              <ol
-                className="ol-scroll"
-                style={{ overflowY: "auto", maxHeight: "465px" }}
-              >
-                {songs.map((song, index) => (
-                  <div
-                    key={song.id}
-                    className="p-1"
-                    onClick={() => playSelectedSong(song.id)}
-                  >
-                    <button className="button-div-list-song">
-                      <div style={{ display: "flex" }}>
-                        <div
-                          style={{
-                            marginRight: "10px",
-                            fontFamily: "fantasy",
-                            fontSize: "22px",
-                            position: "relative",
-                            top: "9px",
-                          }}
-                        >
-                          {index + 1}
-                        </div>
-                        <PlayArrowIcon className="play-and-detail" />
-                        <img
-                          src={song.image}
-                          alt=""
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            marginRight: "10px",
-                          }}
-                        />
-                        <div>
-                          <div className="artist-name">{song.title}</div>
-                          <div className="artist-name">{song.artist}</div>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                ))}
-              </ol>
-              </div>
-            
             </div>
             {/* Danh sách bài hát End */}
             {/* Chi tiết bài hát Start */}
-            <div className="col-md-4 col-lg-4"
-             style={{ background: "none" }}
-             >
-              <div  style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-                <br/>
+            <div className="col-md-4 col-lg-4" style={{ background: "none" }}>
+              <div
+                style={{
+                  background: "none",
+                  margin: "4px",
+                  borderRadius: "4px",
+                }}
+              >
+                <br />
                 <DetailLoginPage
                   selectedSongId={selectedSongId}
                   songs={songs}
@@ -218,12 +234,12 @@ function BodyLoginPage({ language }) {
             controls
             style={{
               width: "100%",
-              height:"40px",
+              height: "40px",
               background: "white",
               position: "relative",
               top: "5px",
             }}
-            id="audioPlayer"          
+            id="audioPlayer"
           />
         </div>
       </div>

@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import LanguageIcon from "@mui/icons-material/Language";
 import "../../Css/SidebarHomePage.css";
+import { Link } from "react-router-dom";
 
 function Sidebar({ language, changeLanguage }) {
   return (
@@ -13,17 +14,21 @@ function Sidebar({ language, changeLanguage }) {
         <button className="btn-homePage">
           <img
             src="/img/Header/logo.png"
-            style={{ height: "23px" }}
+            style={{ height: "30px" }}
             alt="Spotify logo"
-          ></img>{" "}
-          Spotify
+          ></img>
+          Gpotify
         </button>
-        <button className="btn-homePage">
-          <HomeIcon /> {language === "en" ? "Home" : "Trang chủ"}
-        </button>
-        <button className="btn-homePage">
-          <SearchIcon /> {language === "en" ? "Search" : "Tìm kiếm"}
-        </button>
+        <Link to={"/"}>
+          <button className="btn-homePage">
+            <HomeIcon /> {language === "en" ? "Home" : "Trang chủ"}
+          </button>
+        </Link>
+        <Link to={""}>
+          <button className="btn-homePage">
+            <SearchIcon /> {language === "en" ? "Search" : "Tìm kiếm"}
+          </button>
+        </Link>
       </div>
       <br />
       {/* Sidebar-1 End */}
@@ -47,7 +52,7 @@ function Sidebar({ language, changeLanguage }) {
 
       {/* Legal Information */}
       <div className="backgound-div">
-        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
+        <div style={{ display: "flex", "flex-wrap": "wrap" }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en" ? "Legal" : "Pháp lý"}
           </p>
@@ -57,7 +62,7 @@ function Sidebar({ language, changeLanguage }) {
               : "Trung tâm an toàn và quyền riêng tư"}
           </p>
         </div>
-        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
+        <div style={{ display: "flex", "flex-wrap": "wrap" }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en" ? "Privacy policy" : "Chính sách quyền riêng tư"}
           </p>
@@ -65,7 +70,7 @@ function Sidebar({ language, changeLanguage }) {
             {language === "en" ? "Cookie" : "Cookie"}
           </p>
         </div>
-        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
+        <div style={{ display: "flex", "flex-wrap": "wrap" }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en"
               ? "Introducing advertising"
@@ -75,7 +80,7 @@ function Sidebar({ language, changeLanguage }) {
             {language === "en" ? "Accessibility support" : "Hỗ trợ tiếp cận"}
           </p>
         </div>
-        <div style={{ display: "flex","flex-wrap": 'wrap' }}>
+        <div style={{ display: "flex", "flex-wrap": "wrap" }}>
           <p className="color-text" style={{ marginRight: "40px" }}>
             {language === "en" ? "Cookie" : "Cookie"}
           </p>
@@ -86,14 +91,18 @@ function Sidebar({ language, changeLanguage }) {
       <br />
       {/* Language selection */}
       <div>
-        <LanguageIcon className="icon-language"/>
+        <LanguageIcon className="icon-language" />
         <select
           className="select-language"
           value={language}
           onChange={(e) => changeLanguage(e.target.value)}
         >
-          <option className="option-select" value="vn">Việt Nam</option>
-          <option className="option-select" value="en">English</option>
+          <option className="option-select" value="vn">
+            Việt Nam
+          </option>
+          <option className="option-select" value="en">
+            English
+          </option>
           {/* Add more languages if needed */}
         </select>
       </div>

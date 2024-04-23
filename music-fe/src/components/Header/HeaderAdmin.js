@@ -22,7 +22,7 @@ function HeaderAdmin({language}){
         <div className="display-header-admin">
             <div className="col-md-2 col-lg-2">
               <Link to={"/admin"}>
-              <img className="logo-admin" src="img/Header/logo-admin.png" alt=""></img>
+              <img className="logo-admin" src="img/Header/logo.png" alt=""></img>
               </Link>                 
             </div>
             <div className="col-md-9 col-lg-9 title-header-admin"></div>

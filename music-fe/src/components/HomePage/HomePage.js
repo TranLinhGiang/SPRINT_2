@@ -17,7 +17,7 @@ function HomePage() {
     setLanguage(selectedLanguage);
   };
   useEffect(() => {
-    document.title = "Spotify-Web Player: Music for averyone";
+    document.title = "Gpotify-Web Player: Music for averyone";
   });
   useEffect(() => {
     const timeout = setTimeout(() => {

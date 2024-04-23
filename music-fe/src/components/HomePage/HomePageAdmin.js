@@ -13,7 +13,7 @@ function HomePageAdmin() {
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
 
   useEffect(() => {
-    document.title = "Spotify-Web Player: Music for averyone";
+    document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
       try {
         const result = await method.getAllSong();

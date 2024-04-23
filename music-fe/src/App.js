@@ -11,6 +11,8 @@ import BodyLoginPage from "./components/Body/BodyLoginPage";
 import HomePageAdmin from "./components/HomePage/HomePageAdmin";
 import SpotifyList from "./components/HomePage/SpotifyListAdmin";
 import CreateSpotify from "./components/HomePage/SpotifyCreate";
+import SearchSpotify from "./components/HomePage/SearchSpotifyUser";
+import SearchSpotifyUser from "./components/HomePage/SearchSpotifyUser";
 
 function App() {
  
@@ -23,6 +25,7 @@ function App() {
           <Route path="/admin" element={<HomePageAdmin />}></Route>
           <Route path="/list" element={<SpotifyList />}></Route>
           <Route path="/add" element={<CreateSpotify />}></Route>
+          <Route path="/search" element={<SearchSpotifyUser/>}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer

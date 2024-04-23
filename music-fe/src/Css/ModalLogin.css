@@ -1,24 +1,24 @@
 .modal-header{
-       background: #0d704f !important;
+  background: #9FD8F6 !important;
    
 }
 
 .custom-modal-body {
-    background-image: url('https://cdn.tgdd.vn/Files/2022/06/28/1443138/spotify-karaoke-2_1280x720-800-resize.jpg');
+    background-image: url('https://gcs.tripi.vn/public-tripi/tripi-feed/img/474101aac/background-giai-dieu-am-nhac_013834986.jpg ');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
   .form-control{
     background: none !important;
-    border: solid 2px black;
+    border: solid 2px black !important;
   }
   .form-label{
     font-weight: bold;
     color: black;
   }
   .modal-footer{
-       background: #0d704f !important;
+    background: #9FD8F6 !important;
   }
   .btn-primary {
     --bs-btn-border-color: none !important;
