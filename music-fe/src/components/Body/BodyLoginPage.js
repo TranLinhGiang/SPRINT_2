@@ -35,33 +35,48 @@ function BodyLoginPage({ language }) {
   const playSelectedSong = (id) => {
     setSelectedSongId(id);
     const audioPlayer = document.getElementById("audioPlayer");
+    
+    // Đặt nguồn cho phần tử âm thanh
     audioPlayer.src = songs?.find((song) => song.id === id).fileName;
-    audioPlayer.play();
-    setIsPlaying(true); // Set isPlaying to true when a song is played
+    audioPlayer.load();
+  
+    // Kiểm tra xem phần tử âm thanh đã sẵn sàng để phát chưa
+    audioPlayer.addEventListener("canplaythrough", () => {
+      // Sau khi phần tử âm thanh đã sẵn sàng, kiểm tra xem nó có đang phát hay không
+      if (audioPlayer.paused || audioPlayer.ended) {
+        audioPlayer.play(); // Phát bài hát mới
+        setIsPlaying(true); // Đặt isPlaying thành true khi một bài hát được phát
+      } else {
+        // Nếu đang phát, tạm dừng trước và sau đó phát bài hát mới
+        audioPlayer.pause();
+        audioPlayer.play();
+        setIsPlaying(true);
+      }
+    });
   };
+  
+  
+  
+  
   // Xử lý khi nhạc kết thúc
-useEffect(() => {
-  const audioPlayer = document.getElementById("audioPlayer");
-  audioPlayer.addEventListener("ended", () => {
-    setIsPlaying(false); // Set isPlaying to false when the audio ends
-
-    // Lấy index của bài hát hiện tại trong danh sách
-    const currentIndex = songs.findIndex((song) => song.id === selectedSongId);
-
-    // Lấy index của bài hát kế tiếp
-    const nextIndex = (currentIndex + 1) % songs.length;
-
-    // Lấy id của bài hát kế tiếp
-    const nextSongId = songs[nextIndex].id;
-
-    // Phát nhạc bài kế tiếp
-    playSelectedSong(nextSongId);
-  });
-
-  return () => {
-    audioPlayer.removeEventListener("ended", () => {});
-  };
-}, [selectedSongId, songs]);
+  useEffect(() => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.addEventListener("ended", () => {
+      setIsPlaying(false);
+  
+      if (songs.length > 0) {
+        const currentIndex = songs.findIndex((song) => song.id === selectedSongId);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSongId = songs[nextIndex].id;
+        playSelectedSong(nextSongId);
+      }
+    });
+  
+    return () => {
+      audioPlayer.removeEventListener("ended", () => {});
+    };
+  }, [selectedSongId, songs]);
+  
   return (
     <div className="body-loginPage">
       <div
