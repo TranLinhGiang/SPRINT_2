@@ -6,6 +6,9 @@ import com.example.spotifybackend.service.ISongService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,12 +24,10 @@ public class SongController {
 
     @Autowired
     private ISongService iSongService;
-
-
     @GetMapping("/list")
     public ResponseEntity<List<SongAndArtistDto>> showAllSong() {
         List<SongAndArtistDto> songAndArtistDtoList = new ArrayList<>();
-        List<Song> songs = this.iSongService.getAllSong();
+        List<Song> songs = this.iSongService.getAllSongs();
         for (Song song : songs) {
             SongAndArtistDto songAndArtistDto = new SongAndArtistDto();
             songAndArtistDto.setId(song.getId());
@@ -39,6 +40,25 @@ public class SongController {
             songAndArtistDtoList.add(songAndArtistDto);
         }
         return new ResponseEntity<>(songAndArtistDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/listPage")
+    public ResponseEntity<Page<SongAndArtistDto>> showAllSong(
+            @PageableDefault(value = 6) Pageable pageable
+    ) {
+        Page<Song> songsPage = this.iSongService.getAllSong(pageable);
+        Page<SongAndArtistDto> songAndArtistDtoPage = songsPage.map(song -> {
+            SongAndArtistDto songAndArtistDto = new SongAndArtistDto();
+            songAndArtistDto.setId(song.getId());
+            songAndArtistDto.setFileName(song.getFileName());
+            songAndArtistDto.setTitle(song.getTitle());
+            songAndArtistDto.setArtist(song.getArtist().getName()); // Sử dụng tên nghệ sĩ
+            songAndArtistDto.setFavorited(song.isFavorited());
+            songAndArtistDto.setImage(song.getArtist().getImage()); // Lấy hình ảnh từ đối tượng Artist
+            songAndArtistDto.setCategory(song.getCategory().getName());
+            return songAndArtistDto;
+        });
+        return new ResponseEntity<>(songAndArtistDtoPage, HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
@@ -65,11 +85,11 @@ public class SongController {
     }
 
     @PostMapping("/add")
-     public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
+    public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
         if (bindingResult.hasFieldErrors()){
             return new ResponseEntity<>(bindingResult.getFieldErrors(),
                     HttpStatus.NOT_ACCEPTABLE
-                    );
+            );
         }
         Song song= new Song();
         BeanUtils.copyProperties(songAndArtistDto, song);

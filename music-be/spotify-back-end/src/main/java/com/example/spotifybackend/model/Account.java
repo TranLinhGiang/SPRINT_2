@@ -12,14 +12,19 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String useName;
+
     private String password;
 
     public Account() {
     }
 
-    public Account(Integer id, String password) {
+    public Account(Integer id, String useName, String password, Admin admin, Set<Role> roles) {
         this.id = id;
+        this.useName = useName;
         this.password = password;
+        this.admin = admin;
+        this.roles = roles;
     }
 
     public Integer getId() {
@@ -68,5 +73,13 @@ public class Account {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getUseName() {
+        return useName;
+    }
+
+    public void setUseName(String useName) {
+        this.useName = useName;
     }
 }
