@@ -1,0 +1,19 @@
+.paging-css {
+    display: flex;
+    justify-content: flex-end; /* Đẩy phần tử về phía bên phải của container */
+  }
+
+  /* CSS cho responsive font size */
+@media (max-width: 768px) {
+    .table th,
+    .table td {
+      font-size: 12px; /* Thiết lập kích thước font nhỏ hơn cho màn hình nhỏ */
+    }
+  }
+  /* CSS cho responsive font size trong button */
+@media (max-width: 768px) {
+    .btn {
+      font-size: 12px; /* Thiết lập kích thước font nhỏ hơn cho màn hình nhỏ */
+    }
+  }
+  

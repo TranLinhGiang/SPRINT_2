@@ -11,21 +11,20 @@ import BodyLoginPage from "./components/Body/BodyLoginPage";
 import HomePageAdmin from "./components/HomePage/HomePageAdmin";
 import SpotifyList from "./components/HomePage/SpotifyListAdmin";
 import CreateSpotify from "./components/HomePage/SpotifyCreate";
-import SearchSpotify from "./components/HomePage/SearchSpotifyUser";
-import SearchSpotifyUser from "./components/HomePage/SearchSpotifyUser";
+import SearchSpotify from "./components/HomePage/SearchSpotifyUserLogin";
+import SearchSpotifyUserLogin from "./components/HomePage/SearchSpotifyUserLogin";
 
 function App() {
- 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage/>}></Route>
+          <Route path="/" element={<HomePage />}></Route>
           <Route path="/loginPage" element={<LoginPage />}></Route>
           <Route path="/admin" element={<HomePageAdmin />}></Route>
           <Route path="/list" element={<SpotifyList />}></Route>
           <Route path="/add" element={<CreateSpotify />}></Route>
-          <Route path="/search" element={<SearchSpotifyUser/>}></Route>
+          <Route path="/search" element={<SearchSpotifyUserLogin />}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer
@@ -39,7 +38,6 @@ function App() {
         draggable
         pauseOnHover
       />
-
     </>
   );
 }

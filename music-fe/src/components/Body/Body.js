@@ -9,14 +9,23 @@ function Body({ language }) {
     const fetchData = async () => {
       try {
         const result = await method.getAllSong();
-        setSongs(result);
+        if (result && Array.isArray(result)) {
+          setSongs(result);
+          console.log("Danh sách: ", result);
+        } else {
+          console.error("Result content is not an array:", result);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, []);
+
+  if (!songs.length) { // Kiểm tra nếu không có dữ liệu
+    return <span>Loading...</span>;
+  }
 
   return (
     <div className="color-body-homePage">
@@ -28,16 +37,15 @@ function Body({ language }) {
               data-wow-delay="0.1s"
               style={{ position: "relative", top: "34px" }}
             >
-              {language === "en" ? "Popular Artists" : "Nghệ sĩ phổ biến"}
+              {language === "en" ? "Popular Artists" : "Nhạc phổ biến"}
             </h6>
           </div>
-          <div
-            className="tab-className wow fadeInUp"
-            data-wow-delay="0.1s"
-          >
+          <div className="tab-className wow fadeInUp" data-wow-delay="0.1s">
             <div className="tab-content">
               <div id="GalleryTab-1" className="tab-pane fade show p-0 active">
-                <div className="row g-2">
+                <div className="row g-2 croll-information"
+                style={{overflowY: "auto", maxHeight: "400px"}}
+                >
                   {songs.map((song) => (
                     <div
                       key={song.id}
@@ -45,21 +53,32 @@ function Body({ language }) {
                       data-wow-delay="0.1s"
                       style={{
                         height: "200px",
-                        width: "230px",
+                        width: "226px",
                         padding: "13px",
                         margin: "3px",
                       }}
                     >
                       <div className="video h-100">
                         <img
-                          src={song.image}
+                          src={song.image} // Kiểm tra tên trường dữ liệu này
                           className="img-fluid rounded w-100 h-100 size-img-body"
                           style={{ objectFit: "cover" }}
                           alt=""
                         />
                         <div className="overlay-text position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-                          <span className="background-gray" style={{ whiteSpace: 'nowrap' }}>
-                            <p className="text-white m-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{song.title}</p>
+                          <span
+                            className="background-gray"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <p
+                              className="text-white m-0"
+                              style={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {song.title}
+                            </p>
                             <p className="m-0 text-img-small">
                               {language === "en" ? "Artist" : "Nghệ sĩ"}
                             </p>
@@ -86,4 +105,5 @@ function Body({ language }) {
     </div>
   );
 }
+
 export default Body;

@@ -45,7 +45,7 @@ function HomePageAdmin() {
     audioPlayer.play();
   };
   return (
-    <>
+
       <div className="body">
         <div >
           <HeaderAdmin />
@@ -64,7 +64,7 @@ function HomePageAdmin() {
               <h5 style={{margin: '4px', color: 'white' }}>Danh sách nghệ sĩ ___</h5>
               <ol 
                 className="ol-scroll"
-                style={{ overflowY: "auto", maxHeight: "500px" }} // Thêm kiểu overflow cho cuộn chuột
+                style={{ overflowY: "auto", maxHeight: "470px" }} // Thêm kiểu overflow cho cuộn chuột
               >
                 {Array.from(new Set(songs.map((song) => song.artist))).map(
                   (artist, index) => {
@@ -200,7 +200,7 @@ function HomePageAdmin() {
       </div>
       {/* footer End */}
       </div>
-    </>
+
   );
 }
 export default HomePageAdmin;

@@ -1,3 +1,78 @@
-.display-search-homepage{
-    display: flex;
+.display-search-homepage {
+  display: flex;
+  flex-wrap: wrap;
+ 
 }
+.display-flexs{
+    flex-wrap: wrap;
+}
+  
+
+.div-search-user-login {
+  background: #212227;
+  margin: 7px;
+  border-radius: 3px;
+  border-radius: 5px;
+}
+.input-search {
+  height: 35px;
+  margin: 13px;
+  border: solid 2px white;
+  background: none;
+  border-radius: 7px;
+  color: white;
+  width: 300px;
+}
+.btn-search {
+  border: solid 2px white;
+  height: 33px;
+  border-radius: 21px;
+  color: black;
+}
+.btn-search:hover {
+  border: solid 2px white;
+  height: 33px;
+  border-radius: 21px;
+  color: black;
+  background: rgb(84, 199, 84);
+}
+.div-list-search {
+  background: #212227;
+  margin: 7px;
+  border-radius: 5px;
+}
+.search-detail {
+  position: relative;
+  top: 6px;
+}
+.information {
+  background: #212227;
+  position: relative;
+  top: 10px;
+  width: 100%;
+  border-radius: 5px;
+  height: 108px;
+  color: white;
+}
+.p-information {
+  padding: 7px;
+  /* Thiết lập chiều cao tối đa cho phần thông tin */
+  max-height: 100px; /* Thay đổi giá trị theo nhu cầu */
+  /* Thiết lập kiểu cuộn khi nội dung vượt quá kích thước */
+  overflow-y: auto; /* Cuộn dọc */
+  scroll-behavior: smooth;
+}
+/* CSS cho thanh cuộn */
+.p-information::-webkit-scrollbar {
+    width: 8px; /* Độ rộng của thanh cuộn */
+  }
+  
+  .p-information::-webkit-scrollbar-thumb {
+    background-color: #888; /* Màu của nút cuộn */
+    border-radius: 4px; /* Độ cong của nút cuộn */
+  }
+  
+  .p-information::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Màu của nút cuộn khi di chuột qua */
+  }
+

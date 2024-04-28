@@ -223,10 +223,7 @@
   color: white;
 }
 
-/* .text-img {
-    margin-bottom: 5px;
 
-} */
 .color-body-homePage {
   background: #1b1a1a;
   border-radius: 13px;
@@ -238,4 +235,25 @@
   position: relative;
   top: 54px;
   width: 85%;
+}
+.croll-information {
+  padding: 1px;
+  /* Thiết lập chiều cao tối đa cho phần thông tin */
+  max-height: 100px; /* Thay đổi giá trị theo nhu cầu */
+  /* Thiết lập kiểu cuộn khi nội dung vượt quá kích thước */
+  overflow-y: auto; /* Cuộn dọc */
+  scroll-behavior: smooth;
+}
+/* CSS cho thanh cuộn */
+.croll-information::-webkit-scrollbar {
+  width: 8px; /* Độ rộng của thanh cuộn */
+}
+
+.croll-information::-webkit-scrollbar-thumb {
+  background-color: #888; /* Màu của nút cuộn */
+  border-radius: 4px; /* Độ cong của nút cuộn */
+}
+
+.croll-information::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Màu của nút cuộn khi di chuột qua */
 }

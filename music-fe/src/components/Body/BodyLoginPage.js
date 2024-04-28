@@ -6,12 +6,14 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import DetailLoginPage from "./DetailLoginPage";
 import HeaderLoginPage from "../Header/HeaderLoginPage";
 import SidebarUser from "../Sidebar/SidebarUser";
+import { Audio } from "react-loader-spinner";
 
 function BodyLoginPage({ language }) {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
-
+  const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
+  const [showAudio, setShowAudio] = useState(false);
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
@@ -19,9 +21,8 @@ function BodyLoginPage({ language }) {
         const result = await method.getAllSong();
         setSongs(result);
 
-        // Nếu không có bài hát được chọn hoặc danh sách bài hát thay đổi, chọn bài hát đầu tiên làm mặc định
         if (!selectedSongId && result.length > 0) {
-          setDefaultSongId(result[0].id);
+          setSelectedSongId(result[0].id);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -29,21 +30,38 @@ function BodyLoginPage({ language }) {
     };
 
     fetchData();
-  }, [selectedSongId]); // Thêm selectedSongId vào dependency array
-
-  useEffect(() => {
-    // Nếu không có bài hát được chọn, sử dụng bài hát mặc định
-    if (!selectedSongId && defaultSongId) {
-      setSelectedSongId(defaultSongId);
-    }
-  }, [defaultSongId]);
+  }, [selectedSongId]);
 
   const playSelectedSong = (id) => {
-    setSelectedSongId(id); // Truyền id của bài hát được chọn
+    setSelectedSongId(id);
     const audioPlayer = document.getElementById("audioPlayer");
-    audioPlayer.src = songs?.find((song) => song.id === id).fileName; // Sử dụng id để lấy đường dẫn của bài hát
+    audioPlayer.src = songs?.find((song) => song.id === id).fileName;
     audioPlayer.play();
+    setIsPlaying(true); // Set isPlaying to true when a song is played
   };
+  // Xử lý khi nhạc kết thúc
+useEffect(() => {
+  const audioPlayer = document.getElementById("audioPlayer");
+  audioPlayer.addEventListener("ended", () => {
+    setIsPlaying(false); // Set isPlaying to false when the audio ends
+
+    // Lấy index của bài hát hiện tại trong danh sách
+    const currentIndex = songs.findIndex((song) => song.id === selectedSongId);
+
+    // Lấy index của bài hát kế tiếp
+    const nextIndex = (currentIndex + 1) % songs.length;
+
+    // Lấy id của bài hát kế tiếp
+    const nextSongId = songs[nextIndex].id;
+
+    // Phát nhạc bài kế tiếp
+    playSelectedSong(nextSongId);
+  });
+
+  return () => {
+    audioPlayer.removeEventListener("ended", () => {});
+  };
+}, [selectedSongId, songs]);
   return (
     <div className="body-loginPage">
       <div
@@ -81,7 +99,7 @@ function BodyLoginPage({ language }) {
           >
             {/* Danh sách ca sĩ Start */}
             <div
-              className="col-md-4 col-lg-4"
+              className="col-md-3 col-lg-3"
               style={{
                 color: "white",
                 // , background: "black"
@@ -98,7 +116,7 @@ function BodyLoginPage({ language }) {
                 <h5 style={{ margin: "4px" }}>Danh sách nghệ sĩ ___</h5>
                 <ol
                   className="ol-scroll"
-                  style={{ overflowY: "auto", maxHeight: "500px" }} // Thêm kiểu overflow cho cuộn chuột
+                  style={{ overflowY: "auto", maxHeight: "467px" }} // Thêm kiểu overflow cho cuộn chuột
                 >
                   {Array.from(new Set(songs?.map((song) => song.artist))).map(
                     (artist, index) => {
@@ -145,7 +163,7 @@ function BodyLoginPage({ language }) {
             {/* Danh sách ca sĩ End */}
             {/* Danh sách bài hát Start */}
             <div
-              className="col-md-4 col-lg-4"
+              className="col-md-5 col-lg-5"
               style={{
                 color: "white",
                 // , background: "black"
@@ -183,7 +201,23 @@ function BodyLoginPage({ language }) {
                           >
                             {index + 1}
                           </div>
-                          <PlayArrowIcon className="play-and-detail" />
+
+                          {selectedSongId === song.id && isPlaying ? (
+                            <Audio
+                              height="30"
+                              width="30"
+                              color="green"
+                              ariaLabel="three-dots-loading"
+                              style={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%", // Đặt ở giữa theo chiều ngang
+                                transform: "translateX(-50%)", // Dịch chuyển ngược lại 50% chiều ngang để căn giữa
+                              }}
+                            />
+                          ) : (
+                            <PlayArrowIcon className="play-and-detail" />
+                          )}
                           <img
                             src={song.image}
                             alt=""
@@ -216,7 +250,9 @@ function BodyLoginPage({ language }) {
               >
                 <br />
                 <DetailLoginPage
-                  selectedSongId={selectedSongId}
+                  selectedSongId={
+                    selectedSongId || (songs.length > 0 && songs[0].id)
+                  }
                   songs={songs}
                   playSelectedSong={playSelectedSong}
                 />

@@ -3,7 +3,16 @@ import axios from "axios";
 export const getAllSong = async () => {
   try {
     let rs = await axios.get(`http://localhost:8080/api/song/list`);
-
+    console.log("Data from backend:", rs.data);
+    return rs.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const getAllSongs = async () => {
+  try {
+    let rs = await axios.get(`http://localhost:8080/api/song/listPage`);
+    console.log("Data from backend:", rs.data);
     return rs.data;
   } catch (e) {
     console.log(e);

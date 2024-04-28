@@ -2,10 +2,9 @@ import Footer from "../Footers/Footer";
 import HeaderAdmin from "../Header/HeaderAdmin";
 import "../../Css/CreateSpotify.css";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import * as method from "../../Service/method";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { imageDB } from "../FireBase/Config";
@@ -13,44 +12,34 @@ import { v4 } from "uuid";
 
 function CreateSpotify() {
   const [categories, setCategories] = useState([]);
-  const [img, setImg] = useState("");
-  const [imgURL, setImgURL] = useState(""); // State để lưu URL của hình ảnh đã chọn
-  const [audioURL, setAudioURL] = useState(""); // State để lưu URL của hình ảnh đã chọn
-
+  const [imgURL, setImgURL] = useState("");
+  const [audioURL, setAudioURL] = useState("");
   const navigate = useNavigate();
-  
-  const handleImageUpload = async () => {
-    if (!img) {
-      console.error("Không có hình ảnh được chọn.");
+  const [isFileUploaded, setIsFileUploaded] = useState(false); // tránh trường hợp submit
+
+  const handleAudioClick = async (setFieldValue) => {
+    if (!audioURL) {
+      console.error("Không có tệp âm thanh được chọn.");
       return;
     }
-    
-    const imgRef = ref(imageDB, `files/${v4()}`);
-    try {
-      console.log("Bắt đầu tải ảnh lên...");
-      await uploadBytes(imgRef, img);
-      console.log("Tải ảnh lên thành công.");
-      const downloadURL = await getDownloadURL(imgRef);
-      console.log("URL của ảnh đã được tải lên:", downloadURL);
-      setImgURL(downloadURL);
-    } catch (error) {
-      console.error("Lỗi khi tải ảnh lên:", error);
-    }
-  };
-  
-  const handleClicks = async () => {
+
     const audioRef = ref(imageDB, `files/${v4()}`);
     try {
+      console.log("Bắt đầu tải nhạc lên...");
       await uploadBytes(audioRef, audioURL);
-      // Cập nhật URL của âm thanh
-      setAudioURL(audioRef.fullPath); // Sử dụng fullPath của audioRef làm URL cho âm thanh
+      console.log("Tải nhạc lên thành công.");
+      const downloadURL = await getDownloadURL(audioRef);
+      console.log("URL của nhạc đã được tải lên:", downloadURL);
+      setAudioURL(downloadURL);
+      setFieldValue("fileName", downloadURL);
+      setIsFileUploaded(true); // Đặt trạng thái là đã tải lên thành công
     } catch (error) {
-      console.error("Error uploading audio:", error);
+      console.error("Lỗi khi tải nhạc lên:", error);
     }
   };
 
   const create = async (song) => {
-    await method.createSpotify(song); // Gửi dữ liệu bao gồm file MP3 đến máy chủ
+    await method.createSpotify(song);
     toast("Thêm mới thành công !");
     navigate("/list");
   };
@@ -58,15 +47,14 @@ function CreateSpotify() {
   const fetchCategories = async () => {
     try {
       const response = await method.getAllCategories();
-
       setCategories(response);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
+
   useEffect(() => {
     fetchCategories();
-    console.log("Categories:", categories);
   }, []);
 
   if (!categories) {
@@ -75,9 +63,7 @@ function CreateSpotify() {
 
   return (
     <>
-      <div>
-        <HeaderAdmin />
-      </div>
+      <HeaderAdmin />
       <div className="container">
         <div className="contact3 py-5">
           <div className="row no-gutters">
@@ -85,7 +71,7 @@ function CreateSpotify() {
               <div className="row">
                 <div className="col-lg-6">
                   <div className="card-shadow">
-                  <img
+                    <img
                       src={imgURL}
                       className="img-fluid picture-create-admin"
                     />
@@ -107,110 +93,93 @@ function CreateSpotify() {
                         category: "",
                         image: "",
                       }}
-                      onSubmit={(value) => {
-                        create(value);
-                      }}
+                      onSubmit={(values) => create(values)}
                     >
-                      <Form className="mt-4">
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="form-group mt-2">
-                              <label>Tên ca sỹ</label>
-                              <Field
-                                name="artist"
-                                className="form-control"
-                                type="text"
-                                style={{ color: "white" }}
-                              />
+                      {({ setFieldValue }) => (
+                        <Form className="mt-4">
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group mt-2">
+                                <label>Tên ca sỹ</label>
+                                <Field
+                                  name="artist"
+                                  className="form-control"
+                                  type="text"
+                                  style={{ color: "white" }}
+                                />
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-lg-12">
-                            <div className="form-group mt-2">
-                              <label>Tên bài hát</label>
-                              <Field
-                                className="form-control"
-                                name="title"
-                                
-                                style={{ color: "white" }}
-                              />
+                            <div className="col-lg-12">
+                              <div className="form-group mt-2">
+                                <label>Tên bài hát</label>
+                                <Field
+                                  className="form-control"
+                                  name="title"
+                                  style={{ color: "white" }}
+                                />
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-lg-12">
-                            <div className="form-group mt-2">
-                              <label>Thể loại nhạc</label>
-                              <br />
-                              <select
-                                className="custom-select form-control"
-                                name="category"
-                                style={{ color: "white" }}
-                              >
-                                <option value="">
-                                  -- Chọn thể loại nhạc (Genre) --
-                                </option>
-                                {categories.map((category) => (
-                                  <option
-                                    key={category}
-                                    value={category}
-                                    style={{ color: "red" }}
-                                  >
-                                    {category}
-                                    {console.log(category)}
+                            <div className="col-lg-12">
+                              <div className="form-group mt-2">
+                                <label>Thể loại nhạc</label>
+                                <br />
+                                <Field
+                                  as="select"
+                                  name="category"
+                                  className="custom-select form-control"
+                                  style={{ color: "white" }}
+                                >
+                                  <option value="">
+                                    -- Chọn thể loại nhạc (Genre) --
                                   </option>
-                                ))}
-                              </select>
+                                  {categories.map((category) => (
+                                    <option
+                                      key={category}
+                                      value={category}
+                                      style={{ color: "red" }}
+                                    >
+                                      {category}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </div>
                             </div>
-                          </div>
-
-                          <div className="col-lg-12">
-                            <div className="form-group mt-2">
-                              <label>Hình ảnh</label>
-                              <br />
-
-                              <input
-                                type="file"
-                                name="image"
-                                onChange={(e) => setImg(e.target.files[0])}
-                                className="form-control-field"
-                                style={{ color: "white" }}
-                              />
+                            <div className="col-lg-12">
+                              <div className="form-group mt-2">
+                                <label>Nhạc</label>
+                                <br />
+                                <input
+                                  type="file"
+                                  name="fileName"
+                                  accept=".mp3"
+                                  onChange={(e) =>
+                                    setAudioURL(e.target.files[0])
+                                  }
+                                  className="form-control-field"
+                                  style={{ color: "white" }}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    handleAudioClick(setFieldValue)
+                                  }
+                                >
+                                  Tải lên
+                                </button>
+                              </div>
+                            </div>
+                            <div className="col-lg-12">
                               <button
-                                type="button"
-                                onClick={handleImageUpload}
+                                type="submit"
+                                className="btn btn-danger-gradiant mt-3 text-white border-0 px-3 py-2"
+                                disabled={!isFileUploaded} // Disable nút khi chưa tải lên thành công
                               >
-                                Tải lên
+                                <span> SUBMIT</span>
                               </button>
                             </div>
                           </div>
-                          <div className="col-lg-12">
-                            <div className="form-group mt-2">
-                              <label>Nhạc</label>
-                              <br />
-
-                              <input
-                                type="file"
-                                name="fileName"
-                                onChange={(e) => setImg(e.target.files[0])}
-                                className="form-control-field"
-                                style={{color: 'white'}}
-
-                              />
-                              <button type="button" onClick={handleClicks}>
-                                Tải lên
-                              </button>
-                            </div>
-                          </div>
-                         
-
-                          <div className="col-lg-12">
-                            <button
-                              type="submit"
-                              className="btn btn-danger-gradiant mt-3 text-white border-0 px-3 py-2"
-                            >
-                              <span> SUBMIT</span>
-                            </button>
-                          </div>
-                        </div>
-                      </Form>
+                        </Form>
+                      )}
                     </Formik>
                   </div>
                 </div>
@@ -219,9 +188,7 @@ function CreateSpotify() {
           </div>
         </div>
       </div>
-      <div>
-        <Footer />
-      </div>
+      <Footer />
     </>
   );
 }

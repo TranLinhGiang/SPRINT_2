@@ -134,6 +134,7 @@
   white-space: nowrap; /* Ngăn tiêu đề và nghệ sĩ bị rớt xuống dòng */
   overflow: hidden; /* Ẩn phần vượt quá kích thước của phần tử */
   text-overflow: ellipsis; /* Hiển thị dấu chấm (...) khi tiêu đề hoặc nghệ sĩ quá dài */
+  max-width: 180px; /* Độ rộng tối đa của tiêu đề */
 }
 /* CSS cho thanh cuộn danh sách bài hát */
 .ol-scroll {
