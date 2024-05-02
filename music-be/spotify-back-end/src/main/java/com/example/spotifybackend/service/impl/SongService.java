@@ -1,5 +1,6 @@
 package com.example.spotifybackend.service.impl;
 
+import com.example.spotifybackend.model.Artist;
 import com.example.spotifybackend.model.Song;
 import com.example.spotifybackend.repository.ISongRepository;
 import com.example.spotifybackend.service.ISongService;
@@ -18,6 +19,8 @@ import java.util.function.Predicate;
 public class SongService implements ISongService {
     @Autowired
     private ISongRepository iSongRepository;
+    @Autowired
+    private ArtistService artistService;
 
     @Override
     public List<Song> getAllSongs() {
@@ -28,9 +31,6 @@ public class SongService implements ISongService {
     public Page<Song> getAllSong(Pageable pageable) {
         return iSongRepository.getAllSong(pageable);
     }
-//    public Page<Song> getAllSong(Pageable pageable) {
-//        return iSongRepository.getAllSong(pageable);
-//    }
 
     @Override
     public Song findById(int id) {
@@ -41,6 +41,4 @@ public class SongService implements ISongService {
     public void save(Song song) {
         iSongRepository.save(song);
     }
-
-
 }

@@ -20,8 +20,8 @@ public class CategoryController {
     private ICategoryService iCategoryService;
 
     @GetMapping("/listCategory")
-    public ResponseEntity<List<String>> getAllCategoryNames() {
-        List<String> categoryNames = this.iCategoryService.getAllCategoryNames();
+    public ResponseEntity<List<Category>> getAllCategoryNames() {
+        List<Category> categoryNames = this.iCategoryService.getAllCategoryNames();
         return new ResponseEntity<>(categoryNames, HttpStatus.OK);
     }
 }

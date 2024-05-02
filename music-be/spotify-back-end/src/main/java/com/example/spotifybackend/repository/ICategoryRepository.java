@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ICategoryRepository extends JpaRepository<Category, Integer> {
-    @Query("SELECT c.name FROM Category c")
-    List<String> getAllCategoryNames();
+    @Query(value = "SELECT * FROM category", nativeQuery = true)
+    List<Category> getAllCategoryNames();
 }

@@ -1,7 +1,9 @@
 package com.example.spotifybackend.controller;
 
 import com.example.spotifybackend.dto.SongAndArtistDto;
+import com.example.spotifybackend.model.Artist;
 import com.example.spotifybackend.model.Song;
+import com.example.spotifybackend.service.IArtistService;
 import com.example.spotifybackend.service.ISongService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +26,8 @@ public class SongController {
 
     @Autowired
     private ISongService iSongService;
+    @Autowired
+    private IArtistService iArtistService;
     @GetMapping("/list")
     public ResponseEntity<List<SongAndArtistDto>> showAllSong() {
         List<SongAndArtistDto> songAndArtistDtoList = new ArrayList<>();
@@ -36,7 +40,7 @@ public class SongController {
             songAndArtistDto.setArtist(song.getArtist().getName()); // Sử dụng tên nghệ sĩ
             songAndArtistDto.setFavorited(song.isFavorited());
             songAndArtistDto.setImage(song.getArtist().getImage()); // Lấy hình ảnh từ đối tượng Artist
-            songAndArtistDto.setCategory(song.getCategory().getName());
+            songAndArtistDto.setCategory(song.getCategory());
             songAndArtistDtoList.add(songAndArtistDto);
         }
         return new ResponseEntity<>(songAndArtistDtoList, HttpStatus.OK);
@@ -55,7 +59,7 @@ public class SongController {
             songAndArtistDto.setArtist(song.getArtist().getName()); // Sử dụng tên nghệ sĩ
             songAndArtistDto.setFavorited(song.isFavorited());
             songAndArtistDto.setImage(song.getArtist().getImage()); // Lấy hình ảnh từ đối tượng Artist
-            songAndArtistDto.setCategory(song.getCategory().getName());
+            songAndArtistDto.setCategory(song.getCategory());
             return songAndArtistDto;
         });
         return new ResponseEntity<>(songAndArtistDtoPage, HttpStatus.OK);
@@ -84,16 +88,37 @@ public class SongController {
         return new ResponseEntity<>(songAndArtistDto, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
-        if (bindingResult.hasFieldErrors()){
-            return new ResponseEntity<>(bindingResult.getFieldErrors(),
-                    HttpStatus.NOT_ACCEPTABLE
-            );
-        }
-        Song song= new Song();
-        BeanUtils.copyProperties(songAndArtistDto, song);
-        iSongService.save(song);
-        return ResponseEntity.ok("ok");
+//    @PostMapping("/add")
+//    public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
+//        String nameArtist = songAndArtistDto.getArtist();
+//        Artist artist = new Artist(nameArtist, songAndArtistDto.getImage());
+//        iArtistService.save(artist);
+//        Artist artist1 = iArtistService.findByName(nameArtist);
+//        Song song= new Song();
+//        BeanUtils.copyProperties(songAndArtistDto, song, "artist");
+//        song.setArtist(artist1);
+//        iSongService.save(song);
+//        return ResponseEntity.ok("ok");
+//    }
+@PostMapping("/add")
+public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
+    String nameArtist = songAndArtistDto.getArtist();
+
+    // Kiểm tra xem tên ca sĩ đã tồn tại trong cơ sở dữ liệu chưa
+    Artist artist = iArtistService.findByName(nameArtist);
+
+    // Nếu tên ca sĩ chưa tồn tại, thêm mới ca sĩ vào cơ sở dữ liệu
+    if(artist == null) {
+        artist = new Artist(nameArtist, songAndArtistDto.getImage());
+        iArtistService.save(artist);
     }
+
+    // Sau đó, gán đối tượng ca sĩ vào bản ghi của bài hát
+    Song song= new Song();
+    BeanUtils.copyProperties(songAndArtistDto, song, "artist");
+    song.setArtist(artist);
+    iSongService.save(song);
+
+    return ResponseEntity.ok("ok");
+}
 }

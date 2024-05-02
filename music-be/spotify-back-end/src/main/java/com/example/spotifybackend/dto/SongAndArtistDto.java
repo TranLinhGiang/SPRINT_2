@@ -19,14 +19,14 @@ public class SongAndArtistDto {
     @NotNull
 
     private String image;
-    @NotNull
-    private String category;
+
+    private Category category;
 
 
     public SongAndArtistDto() {
     }
 
-    public SongAndArtistDto(Integer id, String fileName, String title, String artist, boolean isFavorited, String image, String category) {
+    public SongAndArtistDto(Integer id, String fileName, String title, String artist, boolean isFavorited, String image, Category category) {
         this.id = id;
         this.fileName = fileName;
         this.title = title;
@@ -84,11 +84,11 @@ public class SongAndArtistDto {
         this.image = image;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }

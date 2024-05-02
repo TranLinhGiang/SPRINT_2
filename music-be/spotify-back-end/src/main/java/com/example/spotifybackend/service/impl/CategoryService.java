@@ -13,7 +13,7 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
     @Override
-    public List<String> getAllCategoryNames() {
+    public List<Category> getAllCategoryNames() {
         return categoryRepository.getAllCategoryNames();
     }
 }

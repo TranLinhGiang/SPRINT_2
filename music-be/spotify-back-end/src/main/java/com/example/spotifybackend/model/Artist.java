@@ -20,19 +20,18 @@ public class Artist {
     @NotNull
     private String image;
 
-
-
-    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Song> songs = new ArrayList<>();
-
     public Artist() {
     }
 
-    public Artist(Integer id, String name, String image, List<Song> songs) {
+    public Artist(Integer id, String name, String image) {
         this.id = id;
         this.name = name;
         this.image = image;
-        this.songs = songs;
+    }
+
+    public Artist(String name, String image) {
+        this.name = name;
+        this.image = image;
     }
 
     public Integer getId() {
@@ -59,11 +58,5 @@ public class Artist {
         this.image = image;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
 
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
 }

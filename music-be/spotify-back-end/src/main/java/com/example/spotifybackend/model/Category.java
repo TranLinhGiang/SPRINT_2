@@ -41,16 +41,13 @@ public class Category {
 private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Song> songs = new ArrayList<>();
 
     public Category() {
     }
 
-    public Category(Integer id, String name, List<Song> songs) {
+    public Category(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.songs = songs;
     }
 
     public Integer getId() {
@@ -69,11 +66,4 @@ private Integer id;
         this.name = name;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
 }
