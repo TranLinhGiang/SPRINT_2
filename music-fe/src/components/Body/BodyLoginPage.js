@@ -7,13 +7,10 @@ import DetailLoginPage from "./DetailLoginPage";
 import HeaderLoginPage from "../Header/HeaderLoginPage";
 import SidebarUser from "../Sidebar/SidebarUser";
 import { Audio } from "react-loader-spinner";
-
 function BodyLoginPage({ language }) {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
-  const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
   const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
-  const [showAudio, setShowAudio] = useState(false);
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
@@ -114,7 +111,7 @@ function BodyLoginPage({ language }) {
           >
             {/* Danh sách ca sĩ Start */}
             <div
-              className="col-md-3 col-lg-3"
+              className="col-md-4 col-lg-4"
               style={{
                 color: "white",
                 // , background: "black"
@@ -165,7 +162,7 @@ function BodyLoginPage({ language }) {
                               }}
                             />
                             <div>
-                              <p>{artist}</p>
+                              <p className="artist-name">{artist}</p>
                             </div>
                           </div>
                         </div>
@@ -178,7 +175,7 @@ function BodyLoginPage({ language }) {
             {/* Danh sách ca sĩ End */}
             {/* Danh sách bài hát Start */}
             <div
-              className="col-md-5 col-lg-5"
+              className="col-md-4 col-lg-4"
               style={{
                 color: "white",
                 // , background: "black"
@@ -292,6 +289,7 @@ function BodyLoginPage({ language }) {
             }}
             id="audioPlayer"
           />
+          
         </div>
       </div>
       {/* footer End */}

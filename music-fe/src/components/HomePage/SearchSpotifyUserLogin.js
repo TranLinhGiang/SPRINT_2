@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "../../Css/SearchSpotifyUser.css";
-import SidebarUser from "../Sidebar/SidebarUser";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -11,20 +10,19 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import HomeIcon from "@mui/icons-material/Home";
 import { Audio } from "react-loader-spinner";
 
+
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import Footer from "../Footers/Footer";
 import DetailLoginPage from "../Body/DetailLoginPage";
 function SearchSpotifyUserLogin({ language }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
   const [show, setShow] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
-  const [showAudio, setShowAudio] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -78,11 +76,6 @@ function SearchSpotifyUserLogin({ language }) {
   return (
     <>
       <div className="display-search-homepage">
-        {/* Sidebar Start */}
-        {/* <div className="col-md-1 col-lg-1">
-          <SidebarUser />
-        </div> */}
-        {/* Sidebar End */}
 
         <div className="col-md-8 col-lg-8 display-flex">
           {/* Phần Header Start */}
@@ -331,6 +324,7 @@ function SearchSpotifyUserLogin({ language }) {
               }}
               id="audioPlayer"
             />
+           
           </div>
         </div>
         {/* footer End */}

@@ -189,5 +189,10 @@
 .audio-footer{
   background: #090909;
 }
+.upload{
+  border: none;
+  border-radius: 18px;
+  background: #b6b1b1;
+}
 
 

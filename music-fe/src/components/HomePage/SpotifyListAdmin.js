@@ -57,11 +57,11 @@ function SpotifyList() {
                 <tr key={item.id}>
                   <td>{index + 1 + currentPage * 6}</td>
                   <td>
-                    <img src={item.image} alt="Album Art" className="album-image" />
+                    <img src={item.image} alt="Hình ảnh" className="album-image" />
                   </td>
                   <td>{item.artist}</td>
                   <td>{item.title}</td>
-                  <td>{item.category}</td>
+                  <td>{item.category.name}</td>
                   <td>
                     <Button variant="outline-success">Chỉnh sửa</Button>
                   </td>

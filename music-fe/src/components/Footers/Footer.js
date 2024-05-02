@@ -96,7 +96,7 @@ function Footer({ language }) {
                   Premium Student
                 </a>
                 <a className="btn btn-link" href="">
-                  Spotify Free
+                  Gpotify Free
                 </a>
               </div>
 

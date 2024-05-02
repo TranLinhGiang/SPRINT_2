@@ -4,13 +4,14 @@ import HeaderAdmin from "../Header/HeaderAdmin";
 import * as method from "../../Service/method";
 import DetailLoginPage from "../Body/DetailLoginPage";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SidebarAdmin from './../Sidebar/SidebarAdmin';
-
+import SidebarAdmin from "./../Sidebar/SidebarAdmin";
+import { Audio } from "react-loader-spinner";
 
 function HomePageAdmin() {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
+  const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
 
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
@@ -39,30 +40,72 @@ function HomePageAdmin() {
   }, [defaultSongId]);
 
   const playSelectedSong = (id) => {
-    setSelectedSongId(id); // Truyền id của bài hát được chọn
+    setSelectedSongId(id);
     const audioPlayer = document.getElementById("audioPlayer");
-    audioPlayer.src = songs.find((song) => song.id === id).fileName; // Sử dụng id để lấy đường dẫn của bài hát
-    audioPlayer.play();
+    
+    // Đặt nguồn cho phần tử âm thanh
+    audioPlayer.src = songs?.find((song) => song.id === id).fileName;
+    audioPlayer.load();
+  
+    // Kiểm tra xem phần tử âm thanh đã sẵn sàng để phát chưa
+    audioPlayer.addEventListener("canplaythrough", () => {
+      // Sau khi phần tử âm thanh đã sẵn sàng, kiểm tra xem nó có đang phát hay không
+      if (audioPlayer.paused || audioPlayer.ended) {
+        audioPlayer.play(); // Phát bài hát mới
+        setIsPlaying(true); // Đặt isPlaying thành true khi một bài hát được phát
+      } else {
+        // Nếu đang phát, tạm dừng trước và sau đó phát bài hát mới
+        audioPlayer.pause();
+        audioPlayer.play();
+        setIsPlaying(true);
+      }
+    });
   };
-  return (
+  // Xử lý khi nhạc kết thúc
+  useEffect(() => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.addEventListener("ended", () => {
+      setIsPlaying(false);
+  
+      if (songs.length > 0) {
+        const currentIndex = songs.findIndex((song) => song.id === selectedSongId);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSongId = songs[nextIndex].id;
+        playSelectedSong(nextSongId);
+      }
+    });
+  
+    return () => {
+      audioPlayer.removeEventListener("ended", () => {});
+    };
+  }, [selectedSongId, songs]);
 
-      <div className="body">
-        <div >
-          <HeaderAdmin />
+  return (
+    <div className="body">
+      <div>
+        <HeaderAdmin />
+      </div>
+      <div className="display-body-admin">
+        {/* Sidebar Start */}
+        <div className="col-md-1 col-lg-1">
+          <SidebarAdmin />
         </div>
-        <div className="display-body-admin">
-          {/* Sidebar Start */}
-          <div  className="col-md-1 col-lg-1">
-            <SidebarAdmin/>
-          </div>
-   
-          {/* Body Start */}
-          <div className=" display-body-admin flex-wrap">
-            {/* Danh sách ca sĩ Start */}
+
+        {/* Body Start */}
+        <div className=" display-body-admin flex-wrap">
+          {/* Danh sách ca sĩ Start */}
           <div className="col-md-4 col-lg-4">
-          <div style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-              <h5 style={{margin: '4px', color: 'white' }}>Danh sách nghệ sĩ ___</h5>
-              <ol 
+            <div
+              style={{
+                background: "none",
+                margin: "4px",
+                "border-radius": "4px",
+              }}
+            >
+              <h5 style={{ margin: "4px", color: "white" }}>
+                Danh sách nghệ sĩ ___
+              </h5>
+              <ol
                 className="ol-scroll"
                 style={{ overflowY: "auto", maxHeight: "470px" }} // Thêm kiểu overflow cho cuộn chuột
               >
@@ -86,10 +129,7 @@ function HomePageAdmin() {
                               top: "9px",
                             }}
                           >
-                            <span style={{color: 'white'}}>
-                            {index + 1}
-                            </span>
-                           
+                            <span style={{ color: "white" }}>{index + 1}</span>
                           </div>
                           <img
                             src={representativeSong.image}
@@ -101,7 +141,7 @@ function HomePageAdmin() {
                             }}
                           />
                           <div>
-                            <p style={{color: 'white'}}>{artist}</p>
+                            <p style={{ color: "white" }}>{artist}</p>
                           </div>
                         </div>
                       </div>
@@ -109,79 +149,106 @@ function HomePageAdmin() {
                   }
                 )}
               </ol>
-              </div>
+            </div>
           </div>
-            {/* Danh sách ca sĩ End */}
+          {/* Danh sách ca sĩ End */}
 
           {/* Danh sách bài hát Start */}
-              <div className="col-md-4 col-lg-4">
-              <div  style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-              <h5 style={{margin: '4px', color: 'white'}}>Danh sách bài hát ___</h5>
+          <div className="col-md-4 col-lg-4">
+            <div
+              style={{
+                background: "none",
+                margin: "4px",
+                "border-radius": "4px",
+              }}
+            >
+              <h5 style={{ margin: "4px", color: "white" }}>
+                Danh sách bài hát ___
+              </h5>
               <ol
                 className="ol-scroll"
                 style={{ overflowY: "auto", maxHeight: "465px" }}
               >
-                {songs.map((song, index) => (
-                  <div
-                    key={song.id}
-                    className="p-1"
-                    onClick={() => playSelectedSong(song.id)}
-                  >
-                    <button className="button-div-list-song">
-                      <div style={{ display: "flex" }}>
-                        <div
-                          style={{
-                            marginRight: "10px",
-                            fontFamily: "fantasy",
-                            fontSize: "22px",
-                            position: "relative",
-                            top: "9px",
-                          }}
-                        >
-                          {index + 1}
+                 {songs?.map((song, index) => (
+                    <div
+                      key={song.id}
+                      className="p-1"
+                      onClick={() => playSelectedSong(song.id)}
+                    >
+                      <button className="button-div-list-song">
+                        <div style={{ display: "flex" }}>
+                          <div
+                            style={{
+                              marginRight: "10px",
+                              fontFamily: "fantasy",
+                              fontSize: "22px",
+                              position: "relative",
+                              top: "9px",
+                            }}
+                          >
+                            {index + 1}
+                          </div>
+
+                          {selectedSongId === song.id && isPlaying ? (
+                            <Audio
+                              height="30"
+                              width="30"
+                              color="green"
+                              ariaLabel="three-dots-loading"
+                              style={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%", // Đặt ở giữa theo chiều ngang
+                                transform: "translateX(-50%)", // Dịch chuyển ngược lại 50% chiều ngang để căn giữa
+                              }}
+                            />
+                          ) : (
+                            <PlayArrowIcon className="play-and-detail" />
+                          )}
+                          <img
+                            src={song.image}
+                            alt=""
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              marginRight: "10px",
+                            }}
+                          />
+                          <div>
+                            <div className="artist-name">{song.title}</div>
+                            <div className="artist-name">{song.artist}</div>
+                          </div>
                         </div>
-                        <PlayArrowIcon className="play-and-detail" />
-                        <img
-                          src={song.image}
-                          alt=""
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                            marginRight: "10px",
-                          }}
-                        />
-                        <div>
-                          <div className="artist-name">{song.title}</div>
-                          <div className="artist-name">{song.artist}</div>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                ))}
-              </ol>
+                      </button>
+                    </div>
+                  ))}
+                </ol>
               </div>
-              </div>
+            </div>
           {/* Danh sách bài hát End */}
 
-              {/* Footer Start */}
-              <div  className="col-md-4 col-lg-4">
-              <div  style={{background:'none', margin: '4px',"border-radius": '4px'}}>
-                <br/>
-                <DetailLoginPage
-                  selectedSongId={selectedSongId}
-                  songs={songs}
-                  playSelectedSong={playSelectedSong}
-                />
-              </div>
-              </div>
-              {/* Footer End */}
-
+          {/* Footer Start */}
+          <div className="col-md-4 col-lg-4">
+            <div
+              style={{
+                background: "none",
+                margin: "4px",
+                "border-radius": "4px",
+              }}
+            >
+              <br />
+              <DetailLoginPage
+                selectedSongId={selectedSongId}
+                songs={songs}
+                playSelectedSong={playSelectedSong}
+              />
+            </div>
           </div>
-              
+          {/* Footer End */}
         </div>
-      
+      </div>
 
-         {/* footer Start */}
+      {/* footer Start */}
       <div>
         <div className="footer-loginPage">
           <audio
@@ -199,8 +266,9 @@ function HomePageAdmin() {
         </div>
       </div>
       {/* footer End */}
-      </div>
-
+    </div>
   );
 }
 export default HomePageAdmin;
+
+
