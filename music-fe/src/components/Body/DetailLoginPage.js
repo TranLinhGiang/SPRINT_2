@@ -4,7 +4,20 @@ import * as method from "../../Service/method";
 import Card from 'react-bootstrap/Card';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addFavourite, deleteFavourite } from './../redux/slide/CardSlide';
+
 function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
+
+// Redux Start
+const cardSongs = useSelector( state => state.card.songArray)
+console.log("Danh sách yêuthihs");
+console.log(cardSongs);
+const dispatch= useDispatch()
+// Redux End
+
+
     const [song, setSong] = useState(null);
 
     useEffect(() => {
@@ -32,6 +45,7 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
     // }
 
   return (
+
     <div className="detail-page-container">
     {selectedSong && (
     <Card style={{ width: '100%',height: '495px',background: 'black' }}>
@@ -50,12 +64,17 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong }) {
       <p className="text-detail" style={{ color: 'white'}}>Ca sỹ: {selectedSong.artist}</p>
       </Card.Text>
       <button className="text-detail button-detail" onClick={() => playSelectedSong(selectedSong.id)}>Phát lại</button>
-      <button className="btn-heart"><FavoriteBorderIcon className="heart"/></button>
+      <button
+      onClick={()=> dispatch(addFavourite(selectedSong))}
+      className="btn-heart" style={{color:'white'}}>
+        <FavoriteBorderIcon className="heart"/>
+        </button>
     </Card.Body>
   </Card>
   
     )}
   </div>
+
   );
 }
 

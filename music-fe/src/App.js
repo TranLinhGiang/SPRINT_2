@@ -11,6 +11,7 @@ import HomePageAdmin from "./components/HomePage/HomePageAdmin";
 import SpotifyList from "./components/HomePage/SpotifyListAdmin";
 import CreateSpotify from "./components/HomePage/SpotifyCreate";
 import SearchSpotifyUserLogin from "./components/HomePage/SearchSpotifyUserLogin";
+import Favourite from "./components/Body/Favourite";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/list" element={<SpotifyList />} />
           <Route path="/add" element={<CreateSpotify />} />
           <Route path="/search" element={<SearchSpotifyUserLogin />} />
+          <Route path="/favourite" element={<Favourite />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer
