@@ -1,0 +1,12 @@
+h3{
+    color: white;
+}
+.favoritetitle{
+    /* background: red; */
+    height: auto;
+}
+.table-favourite{
+    background: none;
+    border: none;
+    border-top: none !important;
+}

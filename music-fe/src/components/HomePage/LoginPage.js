@@ -1,12 +1,12 @@
-import { useState } from "react";
-import BodyLoginPage from "../Body/BodyLoginPage";
+// import { useState } from "react";
+// import BodyLoginPage from "../Body/BodyLoginPage";
 
-function LoginPage() {
-  return (
-    <>
-      <BodyLoginPage />
-    </>
-  );
-}
+// function LoginPage() {
+//   return (
+//     <>
+//       <BodyLoginPage />
+//     </>
+//   );
+// }
 
-export default LoginPage;
+// export default LoginPage;

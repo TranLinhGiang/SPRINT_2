@@ -12,6 +12,7 @@ import SpotifyList from "./components/HomePage/SpotifyListAdmin";
 import CreateSpotify from "./components/HomePage/SpotifyCreate";
 import SearchSpotifyUserLogin from "./components/HomePage/SearchSpotifyUserLogin";
 import Favourite from "./components/Body/Favourite";
+import BodyLoginPage from "./components/Body/BodyLoginPage";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/loginPage" element={<LoginPage />} />
+          <Route path="/loginPage" element={<BodyLoginPage />} />
           <Route path="/admin" element={<HomePageAdmin />} />
           <Route path="/list" element={<SpotifyList />} />
           <Route path="/add" element={<CreateSpotify />} />

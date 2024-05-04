@@ -1,3 +1,25 @@
 .display-flex-favourite{
     display: flex;
 }
+.img-favourite{
+    width: 50px;
+    height: 50px;
+}
+
+.display-flex-wrap{
+    flex-wrap: wrap;
+}
+.div-music-favourite{
+    /* background: grey; */
+}
+
+
+{/* {songs.map((item) => (
+          <div className="display-flex-favourite">
+            <div className="col-md-2"><img className="img-favourite" src={item.image}></img></div>
+            <div className="col-md-10">
+            <p>{item.title}</p>
+            <p>{item.artist}</p>
+            </div>
+          </div>
+        ))} */}

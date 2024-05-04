@@ -8,11 +8,15 @@ import HeaderLoginPage from "../Header/HeaderLoginPage";
 import SidebarUser from "../Sidebar/SidebarUser";
 import { Audio } from "react-loader-spinner";
 
-
 function BodyLoginPage({ language }) {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
+
+  const [flag, setFlag] = useState(false);
+  const changleFlag = () => {
+    setFlag(!flag);
+  };
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
@@ -34,11 +38,11 @@ function BodyLoginPage({ language }) {
   const playSelectedSong = (id) => {
     setSelectedSongId(id);
     const audioPlayer = document.getElementById("audioPlayer");
-    
+
     // Đặt nguồn cho phần tử âm thanh
     audioPlayer.src = songs?.find((song) => song.id === id).fileName;
     audioPlayer.load();
-  
+
     // Kiểm tra xem phần tử âm thanh đã sẵn sàng để phát chưa
     audioPlayer.addEventListener("canplaythrough", () => {
       // Sau khi phần tử âm thanh đã sẵn sàng, kiểm tra xem nó có đang phát hay không
@@ -53,29 +57,28 @@ function BodyLoginPage({ language }) {
       }
     });
   };
-  
-  
-  
-  
+
   // Xử lý khi nhạc kết thúc
   useEffect(() => {
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.addEventListener("ended", () => {
       setIsPlaying(false);
-  
+
       if (songs.length > 0) {
-        const currentIndex = songs.findIndex((song) => song.id === selectedSongId);
+        const currentIndex = songs.findIndex(
+          (song) => song.id === selectedSongId
+        );
         const nextIndex = (currentIndex + 1) % songs.length;
         const nextSongId = songs[nextIndex].id;
         playSelectedSong(nextSongId);
       }
     });
-  
+
     return () => {
       audioPlayer.removeEventListener("ended", () => {});
     };
   }, [selectedSongId, songs]);
-  
+
   return (
     <div className="body-loginPage">
       <div
@@ -92,7 +95,7 @@ function BodyLoginPage({ language }) {
           }}
           className="col-md-1 col-lg-1"
         >
-          <SidebarUser />
+          <SidebarUser flag={flag} />
         </div>
         <div
           className="col-md-11 col-lg-11 container"
@@ -221,7 +224,7 @@ function BodyLoginPage({ language }) {
                               height="30"
                               width="30"
                               color="green"
-                              ariaLabel="three-dots-loading"
+                              ariaLabel="audio-loading"
                               style={{
                                 position: "absolute",
                                 top: "50%",
@@ -264,6 +267,7 @@ function BodyLoginPage({ language }) {
               >
                 <br />
                 <DetailLoginPage
+                  changleFlag={changleFlag}
                   selectedSongId={
                     selectedSongId || (songs.length > 0 && songs[0].id)
                   }
@@ -291,7 +295,6 @@ function BodyLoginPage({ language }) {
             }}
             id="audioPlayer"
           />
-          
         </div>
       </div>
       {/* footer End */}

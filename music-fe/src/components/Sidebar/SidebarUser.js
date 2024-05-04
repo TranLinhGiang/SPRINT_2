@@ -6,8 +6,22 @@ import { Link } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addFavourite, deleteFavourite } from "./../redux/slide/CardSlide";
+import { useEffect, useState } from "react";
 
-function SidebarUser() {
+function SidebarUser({flag}) {
+  const [size, setSize] = useState(0);
+  const [status, setStatus] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("favourite")) {
+      let a = localStorage.getItem("favourite").split(",");
+      a.splice(a.length-1,1);
+      let k = [...a];
+      setSize(k.length);
+    } else {
+      setSize(0);
+    }
+  }, [flag]);
   // Redux Start
   const cardSongs = useSelector((state) => state.card.songArray);
   console.log("Danh sách yêuthihs");
@@ -39,12 +53,15 @@ function SidebarUser() {
       <div style={{ background: "#353232", "border-radius": "6px" }}>
         <div className="div-btn-sidebar-user">
           <Link to={"/favourite"}>
-          <button className="btn-sidebar-user" style={{ position: "relative" }}>
-            <p className="market">{cardSongs.length}</p>
-            <FavoriteBorderIcon
-              style={{ color: "white", width: "100%", height: "35px" }}
-            />
-          </button>
+            <button
+              className="btn-sidebar-user"
+              style={{ position: "relative" }}
+            >
+              <p className="market">{size}</p>
+              <FavoriteBorderIcon
+                style={{ color: "white", width: "100%", height: "35px" }}
+              />
+            </button>
           </Link>
         </div>
 

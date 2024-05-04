@@ -88,7 +88,7 @@ function Footer({ language }) {
                 </a>
               </div>
               <div className="col-lg-3 col-md-6">
-                <h5 className="text-light mb-4">Spotify packages</h5>
+                <h5 className="text-light mb-4">Gpotify packages</h5>
                 <a className="btn btn-link" href="">
                   Premium Individual
                 </a>
@@ -199,7 +199,7 @@ function Footer({ language }) {
                 </a>
               </div>
               <div className="col-lg-3 col-md-6">
-                <h5 className="text-light mb-4">Các gói của Spotify</h5>
+                <h5 className="text-light mb-4">Các gói của Gpotify</h5>
                 <a className="btn btn-link" href="">
                   Cá nhân cao cấp
                 </a>
