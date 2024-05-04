@@ -245,7 +245,17 @@ function BodyLoginPage({ language }) {
                             }}
                           />
                           <div>
-                            <div className="artist-name">{song.title}</div>
+                          <div
+                              className="artist-name"
+                              style={{
+                                color:
+                                  selectedSongId === song.id
+                                    ? "green"
+                                    : "white",
+                              }}
+                            >
+                              {song.title}
+                            </div>
                             <div className="artist-name">{song.artist}</div>
                           </div>
                         </div>
