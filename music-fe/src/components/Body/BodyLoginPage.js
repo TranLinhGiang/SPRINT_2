@@ -10,15 +10,17 @@ import { Audio } from "react-loader-spinner";
 
 function BodyLoginPage({ language }) {
   const [songs, setSongs] = useState([]);
-  const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
-  const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
+  const [selectedSongId, setSelectedSongId] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
 
   const [flag, setFlag] = useState(false);
   const changleFlag = () => {
     setFlag(!flag);
   };
+
   useEffect(() => {
-    document.title = "Gpotify-Web Player: Music for averyone";
+    document.title = "Gpotify-Web Player: Music for everyone";
     const fetchData = async () => {
       try {
         const result = await method.getAllSong();
@@ -37,32 +39,35 @@ function BodyLoginPage({ language }) {
 
   const playSelectedSong = (id) => {
     setSelectedSongId(id);
-    const audioPlayer = document.getElementById("audioPlayer");
+    setIsPlaying(true);
+    setAudioVisible(true); // Hiển thị <Audio> khi bắt đầu phát nhạc
 
-    // Đặt nguồn cho phần tử âm thanh
+    const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.src = songs?.find((song) => song.id === id).fileName;
     audioPlayer.load();
-
-    // Kiểm tra xem phần tử âm thanh đã sẵn sàng để phát chưa
-    audioPlayer.addEventListener("canplaythrough", () => {
-      // Sau khi phần tử âm thanh đã sẵn sàng, kiểm tra xem nó có đang phát hay không
-      if (audioPlayer.paused || audioPlayer.ended) {
-        audioPlayer.play(); // Phát bài hát mới
-        setIsPlaying(true); // Đặt isPlaying thành true khi một bài hát được phát
-      } else {
-        // Nếu đang phát, tạm dừng trước và sau đó phát bài hát mới
-        audioPlayer.pause();
-        audioPlayer.play();
-        setIsPlaying(true);
-      }
-    });
+    audioPlayer.play();
   };
 
-  // Xử lý khi nhạc kết thúc
+  const pauseSong = () => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.pause();
+    setIsPlaying(false);
+    setAudioVisible(false); // Ẩn <Audio> khi tạm dừng bài hát
+  };
+
+  const resumeSong = () => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.play();
+    setIsPlaying(true);
+    setAudioVisible(true); // Hiển thị <Audio> khi tiếp tục phát bài hát
+  };
+
   useEffect(() => {
     const audioPlayer = document.getElementById("audioPlayer");
+
     audioPlayer.addEventListener("ended", () => {
       setIsPlaying(false);
+      setAudioVisible(false); // Ẩn <Audio> khi kết thúc phát nhạc
 
       if (songs.length > 0) {
         const currentIndex = songs.findIndex(
@@ -84,15 +89,11 @@ function BodyLoginPage({ language }) {
       <div
         style={{
           display: "flex",
-          "background-image": "linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50))",
+          background: "linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50))",
         }}
       >
         <div
-          style={{
-            background: "#1B1A1A",
-            margin: "1px",
-            "border-radius": "10px",
-          }}
+          style={{ background: "#1B1A1A", margin: "1px", borderRadius: "10px" }}
           className="col-md-1 col-lg-1"
         >
           <SidebarUser flag={flag} />
@@ -102,45 +103,31 @@ function BodyLoginPage({ language }) {
           style={{ height: "100vh" }}
         >
           <div>
-            {/* Header Start */}
             <HeaderLoginPage />
-            {/* Header End */}
           </div>
           <div
-            style={{
-              display: "flex",
-              "flex-wrap": "wrap",
-              // background: "black",
-            }}
-            className="container "
+            className="container"
+            style={{ display: "flex", flexWrap: "wrap" }}
           >
-            {/* Danh sách ca sĩ Start */}
-            <div
-              className="col-md-4 col-lg-4"
-              style={{
-                color: "white",
-                // , background: "black"
-              }}
-            >
+            <div className="col-md-4 col-lg-4" style={{ color: "white" }}>
               <br />
               <div
                 style={{
                   background: "none",
                   margin: "4px",
-                  "border-radius": "4px",
+                  borderRadius: "4px",
                 }}
               >
                 <h5 style={{ margin: "4px" }}>Danh sách nghệ sĩ ___</h5>
                 <ol
                   className="ol-scroll"
-                  style={{ overflowY: "auto", maxHeight: "467px" }} // Thêm kiểu overflow cho cuộn chuột
+                  style={{ overflowY: "auto", maxHeight: "467px" }}
                 >
                   {Array.from(new Set(songs?.map((song) => song.artist))).map(
                     (artist, index) => {
                       const artistSongs = songs.filter(
                         (song) => song.artist === artist
                       );
-
                       const representativeSong = artistSongs[0];
 
                       return (
@@ -177,21 +164,13 @@ function BodyLoginPage({ language }) {
                 </ol>
               </div>
             </div>
-            {/* Danh sách ca sĩ End */}
-            {/* Danh sách bài hát Start */}
-            <div
-              className="col-md-4 col-lg-4"
-              style={{
-                color: "white",
-                // , background: "black"
-              }}
-            >
+            <div className="col-md-4 col-lg-4" style={{ color: "white" }}>
               <br />
               <div
                 style={{
                   background: "none",
                   margin: "4px",
-                  "border-radius": "4px",
+                  borderRadius: "4px",
                 }}
               >
                 <h5 style={{ margin: "4px" }}>Danh sách bài hát ___</h5>
@@ -218,20 +197,23 @@ function BodyLoginPage({ language }) {
                           >
                             {index + 1}
                           </div>
-
                           {selectedSongId === song.id && isPlaying ? (
-                            <Audio
-                              height="30"
-                              width="30"
-                              color="green"
-                              ariaLabel="audio-loading"
-                              style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%", // Đặt ở giữa theo chiều ngang
-                                transform: "translateX(-50%)", // Dịch chuyển ngược lại 50% chiều ngang để căn giữa
-                              }}
-                            />
+                            audioVisible ? (
+                              <Audio
+                                height="30"
+                                width="30"
+                                color="green"
+                                ariaLabel="audio-loading"
+                                style={{
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                }}
+                              />
+                            ) : (
+                              <PlayArrowIcon className="play-and-detail" />
+                            )
                           ) : (
                             <PlayArrowIcon className="play-and-detail" />
                           )}
@@ -245,7 +227,7 @@ function BodyLoginPage({ language }) {
                             }}
                           />
                           <div>
-                          <div
+                            <div
                               className="artist-name"
                               style={{
                                 color:
@@ -265,8 +247,6 @@ function BodyLoginPage({ language }) {
                 </ol>
               </div>
             </div>
-            {/* Danh sách bài hát End */}
-            {/* Chi tiết bài hát Start */}
             <div className="col-md-4 col-lg-4" style={{ background: "none" }}>
               <div
                 style={{
@@ -286,11 +266,9 @@ function BodyLoginPage({ language }) {
                 />
               </div>
             </div>
-            {/* Chi tiết bài hát End */}
           </div>
         </div>
       </div>
-      {/* footer Start */}
       <div>
         <div className="footer-loginPage">
           <audio
@@ -304,10 +282,11 @@ function BodyLoginPage({ language }) {
               top: "5px",
             }}
             id="audioPlayer"
+            onPause={pauseSong} // Khi tạm dừng bài hát
+            onPlay={resumeSong} // Khi tiếp tục phát bài hát
           />
         </div>
       </div>
-      {/* footer End */}
     </div>
   );
 }
