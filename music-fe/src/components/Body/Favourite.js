@@ -1,16 +1,22 @@
 import "../../Css/Favourite.css";
 import SidebarUser from "../Sidebar/SidebarUser";
 import * as method from "../../Service/method";
-import { useSelector, useDispatch } from "react-redux";
-import { addFavourite, deleteFavourite } from "./../redux/slide/CardSlide";
 import { useEffect, useState } from "react";
-import HeaderFavourite from "../Header/HeaderFavourite";
 import DetailLoginPage from "./DetailLoginPage";
-import Table from "react-bootstrap/Table";
 import "../../Css/HeaderFacourite.css";
+import { FavoriteBorder } from "@mui/icons-material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { Audio } from "react-loader-spinner";
 
 function Favourite() {
   const [songs, setSongs] = useState([]);
+  const [selectedSongId, setSelectedSongId] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
+  const [flag, setFlag] = useState(false);
+  const changleFlag = () => {
+    setFlag(!flag);
+  };
   useEffect(() => {
     const getAllSong = async () => {
       try {
@@ -34,47 +40,179 @@ function Favourite() {
     getAllSong();
   }, []);
 
+  const playSelectedSong = (id) => {
+    setSelectedSongId(id);
+    setIsPlaying(true);
+    setAudioVisible(true); // Hiển thị <Audio> khi bắt đầu phát nhạc
+
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.src = songs?.find((song) => song.id === id).fileName;
+    audioPlayer.load();
+    audioPlayer.play();
+  };
+  const pauseSong = () => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.pause();
+    setIsPlaying(false);
+    setAudioVisible(false); // Ẩn <Audio> khi tạm dừng bài hát
+  };
+  const resumeSong = () => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.play();
+    setIsPlaying(true);
+    setAudioVisible(true); // Hiển thị <Audio> khi tiếp tục phát bài hát
+  };
+
   if (!songs) {
     return <pan>Loading...</pan>;
   }
 
   return (
-    <div className="display-flex-favourite">
-      <div className="col-sm-1 col-md-1 col-lg-1">
-        <SidebarUser />
-      </div>
-      <div
-        className="col-sm-11 col-md-11 col-lg-11 display-flex-favourite"
-        style={{ "flex-wrap": "wrap", height: "100vh" }}
-      >
-        <div className="col-sm-8 col-lg-8 container">
-          {/* <nav
-            class=" with-navba navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
-            data-wow-delay="0.1s"
-          >
-            <a class="navbar-brand p-0">
-              <h1 class="m-0">Yêu thích</h1>
-            </a>
+    <>
+      <div className="display-flex-favourite">
+        <div className="col-sm-1 col-md-1 col-lg-1">
+          <SidebarUser />
+        </div>
+        <div
+          className="col-sm-11 col-md-11 col-lg-11 display-flex-favourite"
+          style={{ "flex-wrap": "wrap", height: "100vh" }}
+        >
+          <div className="col-sm-7 col-lg-7 container">
+            <div className="favoritetitle">
+              <div style={{display: 'flex'}}>
+                <div className="col-sm-4 col-lg-4">
+                  <br/>
+                  <img className="logo-favourite" src="img/Header/logo-favourite.png"></img>
+                </div>
+                <div className="col-sm-8 col-lg-8">
+                  <div className="container div-hihi">
+                    <br/>
+                    <p style={{color:'white'}}>Playlist</p>
+                    <h1 style={{color:'white'}}>Danh sách yêu thích</h1>
+                    <p style={{ color: 'white' }}>{songs.length} bài hát</p>
 
-            <hr style={{ color: "white" }} />
-          </nav> */}
-          <div className="favoritetitle">
-            <h3>Nhạc yêu thích</h3>
-            <br />
-            <br />
-            <br />
-            <div style={{ background: 'red'}} className="display-flex-favourite">
-              <div>Phần Số thứ tự</div>
-              <div>Phần để bấm phát nhạc</div>
-              <div>Nút xóa yêu thích</div>
+                  </div>
+                </div>
+              </div>
+              <br/>
+              <div className="ol-scroll" style={{overflowY: "auto", maxHeight: "366px"}}>
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ color: "white", width: "70px" }}>#</th>
+                    <th style={{ color: "white", width: "88px" }}></th>
+                    <th style={{ float: "left", color: "white" }}>Tiêu đề</th>
+                    <th style={{ color: "none", width: "88px" }}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {songs.map((item, index) => (
+                    <tr key={item.id}>
+                      <td style={{ color: "white" }} style={{
+                              marginRight: "10px",
+                              fontFamily: "fantasy",
+                              fontSize: "22px",
+                              position: "relative",
+                              top: "9px",
+                              color: "white"
+                            }}>{index + 1}</td>
+                      <td>
+                        <button
+                          className="btn-titleandartist"
+                          key={item.id}
+                          onClick={() => playSelectedSong(item.id)}
+                        >
+                          {selectedSongId === item.id && isPlaying ? (
+                            audioVisible ? (
+                              <div className="audio-container">
+                                <Audio
+                                  height="30"
+                                  width="30"
+                                  color="green"
+                                  ariaLabel="audio-loading"
+                                />
+                              </div>
+                            ) : (
+                              <PlayArrowIcon className="play-and-details" />
+                            )
+                          ) : (
+                            <PlayArrowIcon className="play-and-details" />
+                          )}
+                          <img className="picture-favourite" src={item.image} />
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="btn-titleandartist"
+                          key={item.id}
+                          onClick={() => playSelectedSong(item.id)}
+                        >
+                          <div style={{ float: "left", color: "white" }}>
+                            <span
+                              style={{
+                                color:
+                                  selectedSongId === item.id
+                                    ? "green"
+                                    : "white",
+                              }}
+                            >
+                              {item.title}
+                            </span>
+                          </div>
+                          <br />
+                          <div style={{ float: "left", color: "white" }}>
+                            <span>{item.artist}</span>
+                          </div>
+                        </button>
+                      </td>
+                      <td style={{ color: "white" }}>
+                        <button className="btn-favourite">
+                          <FavoriteBorder />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
+         
             </div>
           </div>
-        </div>
-        <div className="col-sm-4 col-lg-4">
-          <DetailLoginPage />
+          <div className="col-sm-4 col-lg-4">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <DetailLoginPage
+              changleFlag={changleFlag}
+              selectedSongId={
+                selectedSongId || (songs.length > 0 && songs[0].id)
+              }
+              songs={songs}
+              playSelectedSong={playSelectedSong}
+            />
+          </div>
+          <div className="col-sm-1 col-lg-1"></div>
         </div>
       </div>
-    </div>
+      <div className="footer-loginPage">
+        <audio
+          preload="auto"
+          controls
+          style={{
+            width: "100%",
+            height: "40px",
+            background: "white",
+            position: "relative",
+            top: "5px",
+          }}
+          id="audioPlayer"
+          onPause={pauseSong} // Khi tạm dừng bài hát
+          onPlay={resumeSong} // Khi tiếp tục phát bài hát
+        />
+      </div>
+    </>
   );
 }
 export default Favourite;

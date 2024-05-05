@@ -7,13 +7,15 @@ import DetailLoginPage from "./DetailLoginPage";
 import HeaderLoginPage from "../Header/HeaderLoginPage";
 import SidebarUser from "../Sidebar/SidebarUser";
 import { Audio } from "react-loader-spinner";
+import { useDispatch, useSelector } from "react-redux";
+ import { setIsPlaying, setSelectedSongId } from "../redux/actions/musicActions.js";
+
 
 function BodyLoginPage({ language }) {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
-
   const [flag, setFlag] = useState(false);
   const changleFlag = () => {
     setFlag(!flag);
