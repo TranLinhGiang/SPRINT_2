@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ISongService {
-    List<Song> getAllSongs();
+    List<Song> getAllSongs(String name);
     Page<Song> getAllSong(Pageable pageable);
 
     Song findById(int id);

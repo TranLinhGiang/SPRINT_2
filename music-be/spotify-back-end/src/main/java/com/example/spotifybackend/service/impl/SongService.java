@@ -23,8 +23,15 @@ public class SongService implements ISongService {
     private ArtistService artistService;
 
     @Override
-    public List<Song> getAllSongs() {
-        return iSongRepository.getAllSongs();
+    public List<Song> getAllSongs(String name) {
+        if (name.equals("") || name.equals("undefined")){
+            return iSongRepository.getAllSongs();
+        }
+       List<Song> songList = iSongRepository.findSongsByTitleContaining(name);
+        if (songList.isEmpty()) {
+            songList = iSongRepository.findSongsByArtist_Name(name);
+        }
+        return  songList;
     }
 
     @Override

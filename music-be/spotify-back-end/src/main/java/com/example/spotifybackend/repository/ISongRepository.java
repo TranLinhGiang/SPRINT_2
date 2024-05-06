@@ -29,5 +29,7 @@ public interface ISongRepository extends JpaRepository<Song, Integer>, JpaSpecif
     Song findById(@Param("id") int id);
 
 
+    List<Song> findSongsByTitleContaining(String name);
 
+    List<Song> findSongsByArtist_Name(String name);
 }

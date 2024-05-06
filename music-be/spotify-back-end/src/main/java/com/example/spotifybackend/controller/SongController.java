@@ -29,9 +29,10 @@ public class SongController {
     @Autowired
     private IArtistService iArtistService;
     @GetMapping("/list")
-    public ResponseEntity<List<SongAndArtistDto>> showAllSong() {
+    public ResponseEntity<List<SongAndArtistDto>> showAllSong(@RequestParam(name = "name", defaultValue = "", required = false) String name
+    ) {
         List<SongAndArtistDto> songAndArtistDtoList = new ArrayList<>();
-        List<Song> songs = this.iSongService.getAllSongs();
+        List<Song> songs = this.iSongService.getAllSongs(name);
         for (Song song : songs) {
             SongAndArtistDto songAndArtistDto = new SongAndArtistDto();
             songAndArtistDto.setId(song.getId());
