@@ -28,13 +28,12 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String name, String password, String firstName, String lastName, Account account) {
+    public Customer(Integer id, String name, String password, String firstName, String lastName) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.account = account;
     }
 
     public Integer getId() {
@@ -75,24 +74,5 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @OneToOne
-    @JsonBackReference
-    @JoinColumn(name = "id_acount")
-    private Account account;
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Customer(Integer id, String name, Account account) {
-        this.id = id;
-        this.name = name;
-        this.account = account;
     }
 }

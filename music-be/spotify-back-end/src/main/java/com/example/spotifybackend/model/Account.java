@@ -11,20 +11,24 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String useName;
-
+    private String username;
     private String password;
+    @ManyToOne
+    @JoinColumn(name = "id_role")
+    private Role role;
+    @OneToOne
+    @JoinColumn(name = "id_customer")
+    private Customer customer;
 
     public Account() {
     }
 
-    public Account(Integer id, String useName, String password, Admin admin, Set<Role> roles) {
+    public Account(Integer id, String username, String password, Role role, Customer customer) {
         this.id = id;
-        this.useName = useName;
+        this.username = username;
         this.password = password;
-        this.admin = admin;
-        this.roles = roles;
+        this.role = role;
+        this.customer = customer;
     }
 
     public Integer getId() {
@@ -35,6 +39,14 @@ public class Account {
         this.id = id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -42,44 +54,28 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-    @OneToOne()
-    @JoinColumn(name = "id_admin")
-    private Admin admin;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "account_role",
-            joinColumns = @JoinColumn(name = "id_account", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "id_role", nullable = false))
-    private Set<Role> roles = new HashSet<>();
-
-    public Account(Integer id, String password, Admin admin, Set<Role> roles) {
-        this.id = id;
-        this.password = password;
-        this.admin = admin;
-        this.roles = roles;
+    public Role getRole() {
+        return role;
     }
 
-    public Admin getAdmin() {
-        return admin;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
+    //    @OneToOne()
+//    @JoinColumn(name = "id_admin")
+//    private Admin admin;
+//
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Role> roles = new HashSet<>();
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
-    public String getUseName() {
-        return useName;
-    }
-
-    public void setUseName(String useName) {
-        this.useName = useName;
-    }
 }

@@ -10,7 +10,6 @@ public class Role {
     private Integer id;
     private String name;
 
-
     public Role() {
     }
 
@@ -34,5 +33,4 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
-
 }

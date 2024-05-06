@@ -1,4 +1,6 @@
 package com.example.spotifybackend.config.security.secConfig;
 
-public class SecurityInit {
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
+public class SecurityInit extends AbstractSecurityWebApplicationInitializer {
 }
