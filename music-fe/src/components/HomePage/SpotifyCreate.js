@@ -15,7 +15,6 @@ function CreateSpotify() {
   const [img, setImg] = useState("");
   const [audioURL, setAudioURL] = useState("");
   const navigate = useNavigate();
-  // const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [isImageUploaded, setIsImageUploaded] = useState(false); // Trạng thái của việc tải lên ảnh
   const [isAudioUploaded, setIsAudioUploaded] = useState(false); // Trạng thái của việc tải lên audio
 

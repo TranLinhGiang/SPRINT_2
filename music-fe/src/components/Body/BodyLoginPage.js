@@ -7,8 +7,6 @@ import DetailLoginPage from "./DetailLoginPage";
 import HeaderLoginPage from "../Header/HeaderLoginPage";
 import SidebarUser from "../Sidebar/SidebarUser";
 import { Audio } from "react-loader-spinner";
-import { useDispatch, useSelector } from "react-redux";
- import { setIsPlaying, setSelectedSongId } from "../redux/actions/musicActions.js";
 
 
 function BodyLoginPage({ language }) {
@@ -43,11 +41,15 @@ function BodyLoginPage({ language }) {
     setSelectedSongId(id);
     setIsPlaying(true);
     setAudioVisible(true); // Hiển thị <Audio> khi bắt đầu phát nhạc
-
+  
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.src = songs?.find((song) => song.id === id).fileName;
     audioPlayer.load();
-    audioPlayer.play();
+  
+    // Sử dụng sự kiện canplaythrough để đảm bảo rằng audio đã sẵn sàng để phát trước khi gọi play()
+    audioPlayer.addEventListener('canplaythrough', () => {
+      audioPlayer.play();
+    });
   };
 
   const pauseSong = () => {

@@ -1,25 +1,30 @@
 .modal-header{
-  background: #9FD8F6 !important;
+  background: rgb(3 14 33) !important;
    
 }
 
 .custom-modal-body {
-    background-image: url('https://gcs.tripi.vn/public-tripi/tripi-feed/img/474101aac/background-giai-dieu-am-nhac_013834986.jpg ');
+    background-image: url('https://images.pexels.com/photos/365633/pexels-photo-365633.jpeg?cs=srgb&dl=pexels-miriamespacio-365633.jpg&fm=jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
   .form-control{
     background: none !important;
-    border: solid 2px black !important;
+    border: solid 2px white !important;
   }
   .form-label{
     font-weight: bold;
-    color: black;
+    color: white;
   }
   .modal-footer{
-    background: #9FD8F6 !important;
+    background: rgb(3 14 33) !important;
+
   }
   .btn-primary {
     --bs-btn-border-color: none !important;
+}
+.btn-primary {
+  --bs-btn-bg: green !important;
+  --bs-btn-hover-bg: #016101 !important;
 }

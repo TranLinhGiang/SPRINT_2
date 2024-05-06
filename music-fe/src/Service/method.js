@@ -46,3 +46,12 @@ export const getAllCategories = async () => {
     console.log(e);
   }
 };
+
+export const login = async (user) => {
+  try {
+    let rs = await axios.post(`http://localhost:8080/api/auth/login`, user);
+    return rs.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

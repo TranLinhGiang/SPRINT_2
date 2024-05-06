@@ -2,7 +2,7 @@ import "../../Css/Header.css";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useState } from "react";
 import "../../Css/ModalLogin.css";
-
+import { toast } from "react-toastify";
 import {
   Dropdown,
   DropdownToggle,
@@ -11,14 +11,19 @@ import {
 } from "reactstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function HeaderLoginPage({ language }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
   const [show, setShow] = useState(false);
-
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const handleClose = () => setShow(false);
+  const navigate = useNavigate();
   const handleShow = () => setShow(true);
+  const handleLogout = () => {
+    navigate("/");
+    toast.success("Đăng xuất thành công ");
+  };
   return (
     <>
       <nav
@@ -44,7 +49,8 @@ function HeaderLoginPage({ language }) {
         <div className="ms-auto">
           <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
             <DropdownToggle caret>
-              <FaRegUserCircle className="icon-user" />
+              <FaRegUserCircle className="icon-user" />{" "}
+              <span style={{ color: "white" }}>{username}</span>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem>
@@ -59,27 +65,34 @@ function HeaderLoginPage({ language }) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title className="text-center">
+          <Modal.Title className="text-center" style={{color:'white'}}>
             {language === "en" ? "Logout" : "Đăg xuất"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="custom-modal-body">
-          <h5>
-          {language === "en" ? "Close" : "Bạn muốn đăng xuất "}
+          <h5 style={{color:'white'}}>
+            {language === "en"
+              ? "Close"
+              : `Bạn muốn đăng xuất khỏi ${username}`}
           </h5>
         </Modal.Body>
         <Modal.Footer>
           <Button
-            style={{ background: "#454040", color: "black" }}
+            style={{background: "red", color: "black" }}
             onClick={handleClose}
           >
             {language === "en" ? "Close" : "Thoát"}
           </Button>
-          <Link to={"/"}>
-            <Button style={{ background: "#454040", color: "black" }}>
-              {language === "en" ? "Logout" : "Đăng xuất"}
-            </Button>
-          </Link>
+
+          <Button
+            style={{ color: "black" }}
+            onClick={() => {
+              handleLogout();
+            }}
+            className="button-login"
+          >
+            {language === "en" ? "Logout" : "Đăng xuất"}
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -1,7 +1,9 @@
 import "../../Css/Header.css";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../Css/ModalLogin.css";
+import * as method from "../../Service/method";
+import { toast } from "react-toastify";
 
 import {
   Dropdown,
@@ -12,16 +14,42 @@ import {
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Header({ language }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
   const [show, setShow] = useState(false);
-
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const navi = useNavigate();
   const handleLogin = (e) => {
     console.log(e);
+  };
+
+  useEffect(() => {
+    console.log(username);
+    console.log(password);
+  }, [username, password]);
+
+  const handleSubmit = async () => {
+    try {
+      const user = { username: username, password: password };
+      const resp = await method.login(user);
+      if (resp) {
+        localStorage.setItem("token", resp.token);
+        localStorage.setItem("username", resp.username);
+        toast.success(`Xin chào ${username}`);
+        setShow(false);
+        navi("/loginPage");
+      } else {
+        setErr("Tài khoản hoặc mật khẩu không chính xác");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -68,7 +96,7 @@ function Header({ language }) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title className="text-center">
+          <Modal.Title className="text-center" style={{color:'white'}}>
             {language === "en" ? "Login" : "Đăng nhập"}
           </Modal.Title>
         </Modal.Header>
@@ -78,38 +106,52 @@ function Header({ language }) {
               <Form.Label>
                 {language === "en" ? "User name" : "Tên đăng nhập"}
               </Form.Label>
-              <Form.Control type="text" />
+              <Form.Control
+                type="text"
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+                style={{color:'white'}}
+                spellCheck="false"
+              />
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
               <Form.Label>
                 {language === "en" ? "Password" : "Mật khẩu"}
               </Form.Label>
-              <Form.Control type="password" />
+              <Form.Control
+                type="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                style={{color:'white'}}
+              />
             </Form.Group>
-
-            <input type="checkbox"></input>
-            <strong>
+            <p style={{color:'red'}}>{err}</p>
+            <input type="checkbox" style={{color:'white'}}></input>
+            <strong style={{color:'white'}}>
               {language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}
             </strong>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button
-            style={{ background: "#454040", color: "black" }}
+            style={{ background: "red", color: "white" }}
             onClick={handleClose}
           >
             {language === "en" ? "Close" : "Thoát"}
           </Button>
-          <Link to={"/LoginPage"}>
+
           <Button
-            type="submit"
-            style={{ background: "#454040", color: "black" }}
+            onClick={() => {
+              handleSubmit();
+            }}
+            style={{ color: "white" }}
+            className="button-login"
           >
             {language === "en" ? "Login" : "Đăng nhập"}
           </Button>
-          </Link>
-          
         </Modal.Footer>
       </Modal>
     </>

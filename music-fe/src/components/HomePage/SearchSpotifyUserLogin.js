@@ -9,6 +9,7 @@ import * as method from "../../Service/method";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import HomeIcon from "@mui/icons-material/Home";
 import { Audio } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 
 import {
@@ -23,7 +24,7 @@ function SearchSpotifyUserLogin({ language }) {
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
   const [show, setShow] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
-
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -89,19 +90,19 @@ function SearchSpotifyUserLogin({ language }) {
                 </button>
               </Link>
             </div>
-            <div className="col-md-10 col-lg-10">
+            <div className="col-md-9 col-lg-9">
               <div>
                 <input placeholder="Tìm kiếm" className="input-search"></input>
                 <button className="btn-search">
-                  <SearchIcon />
+                  <SearchIcon /> 
                 </button>
               </div>
             </div>
-            <div className="col-md-1 col-lg-1">
+            <div className="col-md-2 col-lg-2">
               <div className="ms-auto">
                 <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                   <DropdownToggle caret>
-                    <FaRegUserCircle className="icon-user" />
+                    <FaRegUserCircle className="icon-user" /> <span style={{color:'white'}}>{username}</span>
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem>
@@ -290,7 +291,11 @@ function SearchSpotifyUserLogin({ language }) {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="custom-modal-body">
-            <h5>{language === "en" ? "Close" : "Bạn muốn đăng xuất "}</h5>
+          <h5>
+            {language === "en"
+              ? "Close"
+              : `Bạn muốn đăng xuất khỏi ${username}`}
+          </h5>
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -299,11 +304,11 @@ function SearchSpotifyUserLogin({ language }) {
             >
               {language === "en" ? "Close" : "Thoát"}
             </Button>
-            <Link to={"/"}>
+            
               <Button style={{ background: "#454040", color: "black" }}>
                 {language === "en" ? "Logout" : "Đăng xuất"}
               </Button>
-            </Link>
+          
           </Modal.Footer>
         </Modal>
       </div>
