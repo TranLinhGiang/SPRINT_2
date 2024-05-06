@@ -7,7 +7,7 @@ import DetailLoginPage from "./DetailLoginPage";
 import HeaderLoginPage from "../Header/HeaderLoginPage";
 import SidebarUser from "../Sidebar/SidebarUser";
 import { Audio } from "react-loader-spinner";
-
+import { useNavigate } from "react-router-dom";
 
 function BodyLoginPage({ language }) {
   const [songs, setSongs] = useState([]);
@@ -18,6 +18,15 @@ function BodyLoginPage({ language }) {
   const changleFlag = () => {
     setFlag(!flag);
   };
+  const navigate = useNavigate();
+
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(!token) {
+     navigate("/")
+    }
+  },[])
 
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for everyone";
@@ -41,13 +50,13 @@ function BodyLoginPage({ language }) {
     setSelectedSongId(id);
     setIsPlaying(true);
     setAudioVisible(true); // Hiển thị <Audio> khi bắt đầu phát nhạc
-  
+
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.src = songs?.find((song) => song.id === id).fileName;
     audioPlayer.load();
-  
+
     // Sử dụng sự kiện canplaythrough để đảm bảo rằng audio đã sẵn sàng để phát trước khi gọi play()
-    audioPlayer.addEventListener('canplaythrough', () => {
+    audioPlayer.addEventListener("canplaythrough", () => {
       audioPlayer.play();
     });
   };
@@ -289,6 +298,7 @@ function BodyLoginPage({ language }) {
             onPause={pauseSong} // Khi tạm dừng bài hát
             onPlay={resumeSong} // Khi tiếp tục phát bài hát
           />
+         
         </div>
       </div>
     </div>

@@ -1,14 +1,15 @@
 import axios from "axios";
 
-export const getAllSong = async () => {
+export const getAllSong = async (name) => {
   try {
-    let rs = await axios.get(`http://localhost:8080/api/song/list`);
+    let rs = await axios.get(`http://localhost:8080/api/song/list?name=${name}`);
     console.log("Data from backend:", rs.data);
     return rs.data;
   } catch (e) {
     console.log(e);
   }
 };
+
 export const getAllSongs = async () => {
   try {
     let rs = await axios.get(`http://localhost:8080/api/song/listPage`);
@@ -54,4 +55,8 @@ export const login = async (user) => {
   } catch (e) {
     console.log(e);
   }
-};
+
+}
+
+
+

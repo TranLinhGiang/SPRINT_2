@@ -22,7 +22,7 @@ function CreateSpotify() {
   const handleImageUpload = async (setFieldValue) => {
     if (!img) {
       console.error("Không có tệp được chọn.");
-      alert("Không có hình ảnh nào được chọn ");
+      toast.error("Không có tệp tin nào");
       return;
     }
 
@@ -38,7 +38,7 @@ function CreateSpotify() {
       console.log(setImg + "kiểm tra hình ảnh có hay không");
       setFieldValue("image", downloadURLs);
       setIsImageUploaded(true); // Đặt trạng thái là đã tải lên thành công
-      console.log(img + "log imgURL");
+      toast.success("Tải ảnh lên thành công!");
     } catch (error) {
       console.error("Lỗi khi tải ảnh lên:", error);
     }
@@ -48,7 +48,7 @@ function CreateSpotify() {
   const handleAudioClick = async (setFieldValue) => {
     if (!audioURL) {
       console.error("Không có tệp âm thanh được chọn.");
-      alert("Không có tệp âm thanh nào được chọn ");
+      toast.error("Không có tệp tin nào");
       return;
     }
 
@@ -63,6 +63,7 @@ function CreateSpotify() {
       console.log(setAudioURL + "Kiểm tra nhạc xem có hay không");
       setFieldValue("fileName", downloadURL);
       setIsAudioUploaded(true); // Đặt trạng thái là đã tải lên thành công
+      toast.success("Tải nhạc lên thành công!");
     } catch (error) {
       console.error("Lỗi khi tải nhạc lên:", error);
     }
@@ -110,7 +111,10 @@ function CreateSpotify() {
               <div className="row">
                 <div className="col-lg-6">
                   <div className="card-shadow">
-                    <img src={img} className="img-fluid picture-create-admin" />
+                    <img
+                      src={img || "https://png.pngtree.com/png-clipart/20220107/ourlarge/pngtree-handsome-guy-gao-fu-handsome-boy-default-avatar-png-image_4097270.png"}
+                      className="img-fluid picture-create-admin"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-6">
@@ -191,6 +195,7 @@ function CreateSpotify() {
                                   onChange={(e) => setImg(e.target.files[0])}
                                   className="form-control-field"
                                   style={{ color: "white" }}
+                                  accept=".jpg, .jpeg, .webp, .png"
                                 />
                                 <button
                                   type="button"

@@ -1,10 +1,34 @@
+import { Link, useNavigate } from "react-router-dom";
 import "../../Css/Body.css";
 import * as method from "../../Service/method";
 import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
+
 
 function Body({ language }) {
   const [songs, setSongs] = useState([]);
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+  const navi = useNavigate();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [statusLogin, setStatusLogin]= useState(false);
+  const handleLogin = (e) => {
+    console.log(e);
+  };
 
+  useEffect(()=>{
+     const token = localStorage.getItem("token");
+     if(token) {
+      navi("/loginPage")
+     }
+  },[])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,8 +50,36 @@ function Body({ language }) {
   if (!songs.length) { // Kiểm tra nếu không có dữ liệu
     return <span>Loading...</span>;
   }
+  const handleSubmit = async () => {
+    try {
+      const user = { username: username, password: password };
+      const resp = await method.login(user);
+      if (resp) {
+        localStorage.setItem("token", resp.token);
+        localStorage.setItem("username", resp.username);
+        toast.success(`Xin chào ${username}`);
+        setShow(false);
+        setStatusLogin(true);
+        navi("/loginPage");
+      } else {
+        setErr("Tài khoản hoặc mật khẩu không chính xác");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleClick = ()=>{
+    const token = localStorage.getItem("token");
+    if(token){
+      navigate("/BodyLoginPage");
+    } else {
+      setShow(true);
+    }
+  }
 
   return (
+    <>
     <div className="color-body-homePage">
       <div className="container-fluid gallery pb-5">
         <div className="container pb-5">
@@ -84,15 +136,18 @@ function Body({ language }) {
                             </p>
                           </span>
                         </div>
+                        
                         <button
                           type="button"
                           className="btn btn-play"
                           data-bs-toggle="modal"
                           data-src="https://www.youtube.com/embed/DWRcNpR6Kdc"
                           data-bs-target="#videoModal"
+                          onClick={()=> handleClick()}
                         >
                           <span></span>
                         </button>
+                       
                       </div>
                     </div>
                   ))}
@@ -103,6 +158,70 @@ function Body({ language }) {
         </div>
       </div>
     </div>
+
+    {/* // Modal Start */}
+    <Modal show={show} onHide={handleClose}>
+    <Modal.Header closeButton>
+      <Modal.Title className="text-center" style={{color:'white'}}>
+        {language === "en" ? "Login" : "Đăng nhập"}
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body className="custom-modal-body">
+      <Form onSubmit={handleLogin}>
+        <Form.Group controlId="formBasicUsername">
+          <Form.Label>
+            {language === "en" ? "User name" : "Tên đăng nhập"}
+          </Form.Label>
+          <Form.Control
+            type="text"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            style={{color:'white'}}
+            spellCheck="false"
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>
+            {language === "en" ? "Password" : "Mật khẩu"}
+          </Form.Label>
+          <Form.Control
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            style={{color:'white'}}
+          />
+        </Form.Group>
+        <p style={{color:'red'}}>{err}</p>
+        <input type="checkbox" style={{color:'white'}}></input>
+        <strong style={{color:'white'}}>
+          {language === "en" ? "remember login" : "Ghi nhớ đăng nhập"}
+        </strong>
+      </Form>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button
+        style={{ background: "red", color: "white" }}
+        onClick={handleClose}
+      >
+        {language === "en" ? "Close" : "Thoát"}
+      </Button>
+
+      <Button
+        onClick={() => {
+          handleSubmit();
+        }}
+        style={{ color: "white" }}
+        className="button-login"
+      >
+        {language === "en" ? "Login" : "Đăng nhập"}
+      </Button>
+    </Modal.Footer>
+  </Modal>
+    {/* // Modal End */}
+    </>
   );
 }
 

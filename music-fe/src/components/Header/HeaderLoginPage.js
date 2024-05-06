@@ -21,6 +21,7 @@ function HeaderLoginPage({ language }) {
   const navigate = useNavigate();
   const handleShow = () => setShow(true);
   const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate("/");
     toast.success("Đăng xuất thành công ");
   };
