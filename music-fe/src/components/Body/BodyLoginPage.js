@@ -102,6 +102,24 @@ function BodyLoginPage({ language }) {
     };
   }, [selectedSongId, songs]);
 
+   // Lưu trạng thái phát nhạc vào Local Storage khi trạng thái thay đổi
+   useEffect(() => {
+    localStorage.setItem("selectedSongId", selectedSongId);
+    localStorage.setItem("isPlaying", JSON.stringify(isPlaying));
+  }, [selectedSongId, isPlaying]);
+
+  // Phát lại bài hát khi component được tải
+  useEffect(() => {
+    const storedSelectedSongId = localStorage.getItem("selectedSongId");
+    const storedIsPlaying = JSON.parse(localStorage.getItem("isPlaying"));
+
+    // Kiểm tra xem trạng thái đã lưu có tồn tại không
+    if (storedSelectedSongId && storedIsPlaying) {
+      setSelectedSongId(storedSelectedSongId);
+      setIsPlaying(storedIsPlaying);
+    }
+  }, []);
+
   return (
     <div className="body-loginPage">
       <div

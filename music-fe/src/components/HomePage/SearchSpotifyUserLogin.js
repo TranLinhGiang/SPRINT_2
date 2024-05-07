@@ -31,12 +31,20 @@ function SearchSpotifyUserLogin({ language }) {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
+  const [search, setSearch]= useState("");
+  const [doSearch, setDoSearch]= useState(false);
 
+  const handleChangeInput=(event)=>{
+      setSearch(event.target.value);
+  }
+  const handleSearch = async()=>{
+    setDoSearch(!doSearch);
+  }
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
       try {
-        const result = await method.getAllSong();
+        const result = await method.getAllSong(search);
         setSongs(result);
 
         // Nếu không có bài hát được chọn hoặc danh sách bài hát thay đổi, chọn bài hát đầu tiên làm mặc định
@@ -49,7 +57,7 @@ function SearchSpotifyUserLogin({ language }) {
     };
 
     fetchData();
-  }, [selectedSongId]); // Thêm selectedSongId vào dependency array
+  }, [selectedSongId, doSearch]); // Thêm selectedSongId vào dependency array
 
   useEffect(() => {
     // Nếu không có bài hát được chọn và có defaultSongId
@@ -92,8 +100,8 @@ function SearchSpotifyUserLogin({ language }) {
             </div>
             <div className="col-md-9 col-lg-9">
               <div>
-                <input placeholder="Tìm kiếm" className="input-search"></input>
-                <button className="btn-search">
+                <input type="text" placeholder="Tìm kiếm" className="input-search" onChange={(event)=>{handleChangeInput(event)}}></input>
+                <button className="btn-search" onClick={()=>{handleSearch()}}>
                   <SearchIcon /> 
                 </button>
               </div>
