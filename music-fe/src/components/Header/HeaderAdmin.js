@@ -21,6 +21,7 @@ function HeaderAdmin({ language }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate("/");
     toast.success("Đăng xuất thành công")
   };
@@ -64,7 +65,7 @@ function HeaderAdmin({ language }) {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-center" style={{color:'white'}}>
-            {language === "en" ? "Logout" : "Đăg xuất"}
+            {language === "en" ? "Logout" : "Đăng xuất"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="custom-modal-body">
@@ -76,14 +77,14 @@ function HeaderAdmin({ language }) {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            style={{background: "red", color: "black" }}
+            style={{background: "red", color: "white" }}
             onClick={handleClose}
           >
             {language === "en" ? "Close" : "Thoát"}
           </Button>
 
           <Button
-            style={{ color: "black" }}
+            style={{ color: "white" }}
             onClick={() => {
               handleLogout();
             }}

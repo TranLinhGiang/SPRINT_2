@@ -6,13 +6,22 @@ import DetailLoginPage from "../Body/DetailLoginPage";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SidebarAdmin from "./../Sidebar/SidebarAdmin";
 import { Audio } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 function HomePageAdmin() {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
   const [isPlaying, setIsPlaying] = useState(false); // thay đổi biểu tượng icon play
+  const navigate = useNavigate();
+  const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
 
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(!token) {
+     navigate("/")
+    }
+  },[])
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
@@ -42,25 +51,28 @@ function HomePageAdmin() {
   const playSelectedSong = (id) => {
     setSelectedSongId(id);
     const audioPlayer = document.getElementById("audioPlayer");
-    
-    // Đặt nguồn cho phần tử âm thanh
-    audioPlayer.src = songs?.find((song) => song.id === id).fileName;
-    audioPlayer.load();
-  
-    // Kiểm tra xem phần tử âm thanh đã sẵn sàng để phát chưa
-    audioPlayer.addEventListener("canplaythrough", () => {
-      // Sau khi phần tử âm thanh đã sẵn sàng, kiểm tra xem nó có đang phát hay không
-      if (audioPlayer.paused || audioPlayer.ended) {
-        audioPlayer.play(); // Phát bài hát mới
-        setIsPlaying(true); // Đặt isPlaying thành true khi một bài hát được phát
-      } else {
-        // Nếu đang phát, tạm dừng trước và sau đó phát bài hát mới
-        audioPlayer.pause();
+    setAudioVisible(true); // Hiển thị <Audio> khi bắt đầu phát nhạc
+
+    const selectedSong = songs.find((song) => song.id === id);
+
+    // Kiểm tra xem âm thanh đã được tải chưa
+    if (!selectedSong.audioLoaded) {
+        audioPlayer.src = selectedSong.fileName;
+        selectedSong.audioLoaded = true;
+
+        // Sử dụng sự kiện canplaythrough để đảm bảo rằng audio đã được tải hoàn tất trước khi phát
+        audioPlayer.addEventListener('canplaythrough', function() {
+            audioPlayer.play();
+            setIsPlaying(true); // Đặt isPlaying thành true khi một bài hát được phát
+        });
+    } else {
         audioPlayer.play();
         setIsPlaying(true);
-      }
-    });
-  };
+    }
+};
+
+  
+  
   // Xử lý khi nhạc kết thúc
   useEffect(() => {
     const audioPlayer = document.getElementById("audioPlayer");
@@ -74,12 +86,22 @@ function HomePageAdmin() {
         playSelectedSong(nextSongId);
       }
     });
-  
-    return () => {
+ return () => {
       audioPlayer.removeEventListener("ended", () => {});
     };
   }, [selectedSongId, songs]);
 
+  const pauseSong = () => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.pause();
+    setIsPlaying(false);
+  };
+
+  const resumeSong = () => {
+  const audioPlayer = document.getElementById("audioPlayer");
+  audioPlayer.play();
+  setIsPlaying(true);
+};
   return (
     <div className="body">
       <div>
@@ -215,7 +237,17 @@ function HomePageAdmin() {
                             }}
                           />
                           <div>
-                            <div className="artist-name">{song.title}</div>
+                            <div
+                              className="artist-name"
+                              style={{
+                                color:
+                                  selectedSongId === song.id
+                                    ? "green"
+                                    : "white",
+                              }}
+                            >
+                              {song.title}
+                            </div>
                             <div className="artist-name">{song.artist}</div>
                           </div>
                         </div>
@@ -261,7 +293,9 @@ function HomePageAdmin() {
               position: "relative",
               top: "5px",
             }}
-            id="audioPlayer"          
+            id="audioPlayer"     
+            onPause={pauseSong} // Khi tạm dừng bài hát
+            onPlay={resumeSong} // Khi tiếp tục phát bài hát     
           />
         </div>
       </div>
@@ -270,5 +304,3 @@ function HomePageAdmin() {
   );
 }
 export default HomePageAdmin;
-
-

@@ -7,6 +7,7 @@ import "../../Css/HeaderFacourite.css";
 import { FavoriteBorder } from "@mui/icons-material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { Audio } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 function Favourite() {
   const [songs, setSongs] = useState([]);
@@ -14,6 +15,15 @@ function Favourite() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
   const [flag, setFlag] = useState(false);
+  const navigate = useNavigate();
+
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(!token) {
+     navigate("/")
+    }
+  },[])
   const changleFlag = () => {
     setFlag(!flag);
   };
@@ -40,6 +50,7 @@ function Favourite() {
     getAllSong();
   }, []);
 
+
   const playSelectedSong = (id) => {
     setSelectedSongId(id);
     setIsPlaying(true);
@@ -48,7 +59,11 @@ function Favourite() {
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.src = songs?.find((song) => song.id === id).fileName;
     audioPlayer.load();
-    audioPlayer.play();
+
+    // Sử dụng sự kiện canplaythrough để đảm bảo rằng audio đã sẵn sàng để phát trước khi gọi play()
+    audioPlayer.addEventListener("canplaythrough", () => {
+      audioPlayer.play();
+    });
   };
   const pauseSong = () => {
     const audioPlayer = document.getElementById("audioPlayer");
@@ -62,6 +77,24 @@ function Favourite() {
     setIsPlaying(true);
     setAudioVisible(true); // Hiển thị <Audio> khi tiếp tục phát bài hát
   };
+  useEffect(() => {   // tự động chuyển bài
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.addEventListener("ended", () => {
+      setIsPlaying(false);
+      setAudioVisible(false); // Ẩn <Audio> khi kết thúc phát nhạc
+      if (songs.length > 0) {
+        const currentIndex = songs.findIndex(
+          (song) => song.id === selectedSongId
+        );
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSongId = songs[nextIndex].id;
+        playSelectedSong(nextSongId);
+      }
+    });
+    return () => {
+      audioPlayer.removeEventListener("ended", () => {});
+    };
+  }, [selectedSongId, songs]);
 
   if (!songs) {
     return <pan>Loading...</pan>;
@@ -149,6 +182,7 @@ function Favourite() {
                         >
                           <div style={{ float: "left", color: "white" }}>
                             <span
+                             
                               style={{
                                 color:
                                   selectedSongId === item.id

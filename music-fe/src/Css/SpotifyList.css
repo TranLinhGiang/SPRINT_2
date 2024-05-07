@@ -16,4 +16,9 @@
       font-size: 12px; /* Thiết lập kích thước font nhỏ hơn cho màn hình nhỏ */
     }
   }
-  
+  .long-text {
+    max-width: 150px; /* Giới hạn chiều rộng của cột */
+    white-space: nowrap; /* Ngăn văn bản quá dài xuống dòng */
+    overflow: hidden; /* Ẩn phần văn bản vượt quá chiều rộng */
+    text-overflow: ellipsis; /* Thay thế văn bản bị ẩn bằng dấu chấm ba */
+  }

@@ -60,7 +60,7 @@ function SpotifyList() {
                     <img src={item.image} alt="Hình ảnh" className="album-image" />
                   </td>
                   <td>{item.artist}</td>
-                  <td>{item.title}</td>
+                  <td className="long-text">{item.title}</td>
                   <td>{item.category.name}</td>
                   <td>
                     <Button variant="outline-success">Chỉnh sửa</Button>

@@ -11,6 +11,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { Audio } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
+
 import {
   Dropdown,
   DropdownToggle,
@@ -18,8 +19,6 @@ import {
   DropdownItem,
 } from "reactstrap";
 import DetailLoginPage from "../Body/DetailLoginPage";
-import { Form } from 'formik';
-import { event } from "jquery";
 function SearchSpotifyUserLogin({ language }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
@@ -32,17 +31,12 @@ function SearchSpotifyUserLogin({ language }) {
   const [songs, setSongs] = useState([]);
   const [selectedSongId, setSelectedSongId] = useState(null); // State để lưu id của bài hát được chọn
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
-  const [name, setName]= useState("");
-  const [doSearch, setDoSearch]= useState(false);
-  const handleNameSong= (value)=>{
-   setName(value);
-  }
+
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for averyone";
     const fetchData = async () => {
       try {
-        console.log(name);
-        const result = await method.getAllSong(name);
+        const result = await method.getAllSong();
         setSongs(result);
 
         // Nếu không có bài hát được chọn hoặc danh sách bài hát thay đổi, chọn bài hát đầu tiên làm mặc định
@@ -55,7 +49,7 @@ function SearchSpotifyUserLogin({ language }) {
     };
 
     fetchData();
-  }, [selectedSongId, doSearch]); // Thêm selectedSongId vào dependency array
+  }, [selectedSongId]); // Thêm selectedSongId vào dependency array
 
   useEffect(() => {
     // Nếu không có bài hát được chọn và có defaultSongId
@@ -80,10 +74,6 @@ function SearchSpotifyUserLogin({ language }) {
       audioPlayer.removeEventListener("ended", () => {});
     };
   }, []);
- const submitSearch = ()=>{
- setDoSearch(!doSearch);
- }
-  
   return (
     <>
       <div className="display-search-homepage">
@@ -102,12 +92,9 @@ function SearchSpotifyUserLogin({ language }) {
             </div>
             <div className="col-md-9 col-lg-9">
               <div>
-                <input placeholder="Tìm kiếm"
-                 className="input-search"
-                onChange={(event)=> handleNameSong(event.target.value)}
-                ></input>
+                <input placeholder="Tìm kiếm" className="input-search"></input>
                 <button className="btn-search">
-                  <SearchIcon onClick ={()=> submitSearch()}/> 
+                  <SearchIcon /> 
                 </button>
               </div>
             </div>

@@ -15,6 +15,7 @@ function BodyLoginPage({ language }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
   const [flag, setFlag] = useState(false);
+
   const changleFlag = () => {
     setFlag(!flag);
   };
@@ -27,6 +28,7 @@ function BodyLoginPage({ language }) {
      navigate("/")
     }
   },[])
+  
 
   useEffect(() => {
     document.title = "Gpotify-Web Player: Music for everyone";
@@ -45,6 +47,14 @@ function BodyLoginPage({ language }) {
 
     fetchData();
   }, [selectedSongId]);
+  useEffect(() => {
+    // Lấy trạng thái từ localStorage khi component được tải
+    const storedSelectedSongId = localStorage.getItem('selectedSongId');
+    const storedIsPlaying = localStorage.getItem('isPlaying');
+
+    setSelectedSongId(storedSelectedSongId);
+    setIsPlaying(storedIsPlaying === 'true');
+  }, []);
 
   const playSelectedSong = (id) => {
     setSelectedSongId(id);
@@ -65,23 +75,19 @@ function BodyLoginPage({ language }) {
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.pause();
     setIsPlaying(false);
-    setAudioVisible(false); // Ẩn <Audio> khi tạm dừng bài hát
   };
 
   const resumeSong = () => {
-    const audioPlayer = document.getElementById("audioPlayer");
-    audioPlayer.play();
-    setIsPlaying(true);
-    setAudioVisible(true); // Hiển thị <Audio> khi tiếp tục phát bài hát
-  };
+  const audioPlayer = document.getElementById("audioPlayer");
+  audioPlayer.play();
+  setIsPlaying(true);
+};
 
-  useEffect(() => {
+  useEffect(() => {   // tự động chuyển bài
     const audioPlayer = document.getElementById("audioPlayer");
-
     audioPlayer.addEventListener("ended", () => {
       setIsPlaying(false);
       setAudioVisible(false); // Ẩn <Audio> khi kết thúc phát nhạc
-
       if (songs.length > 0) {
         const currentIndex = songs.findIndex(
           (song) => song.id === selectedSongId
@@ -91,7 +97,6 @@ function BodyLoginPage({ language }) {
         playSelectedSong(nextSongId);
       }
     });
-
     return () => {
       audioPlayer.removeEventListener("ended", () => {});
     };
