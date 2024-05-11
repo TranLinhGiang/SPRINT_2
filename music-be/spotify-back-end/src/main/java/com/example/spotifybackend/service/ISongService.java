@@ -14,4 +14,6 @@ public interface ISongService {
     Song findById(int id);
 
     void save(Song song);
+
+    void deleteById(Integer id);
 }

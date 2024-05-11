@@ -17,6 +17,8 @@ public class Song {
     private String title;
     private boolean isFavorited;
 
+
+
     @ManyToOne
     @JoinColumn(name = "artist_id")
     private Artist artist;

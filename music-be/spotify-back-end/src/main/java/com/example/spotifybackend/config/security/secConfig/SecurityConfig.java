@@ -7,6 +7,7 @@ import com.example.spotifybackend.config.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -75,11 +76,11 @@ public class SecurityConfig {
                                 .requestMatchers("/**").permitAll()
                                 .requestMatchers("/api/auth/login**", "/api/auth/test", "/api/auth/send-otp").permitAll()
 
-//                        .requestMatchers(HttpMethod.GET,"/api/customers**").authenticated()
+//                              .requestMatchers(HttpMethod.GET,"/api/customers**").authenticated()
 
 
-//                                .requestMatchers("/api/auth/ad").hasAnyAuthority("ROLE_ADMIN")
-//                                .requestMatchers(HttpMethod.PUT, "/api/customers**").hasAnyAuthority("ROLE_ADMIN")
+//                              .requestMatchers("/api/auth/ad").hasAnyAuthority("ROLE_ADMIN")
+//                                .requestMatchers(HttpMethod.PUT, "/api/admin**").hasAnyAuthority("ROLE_ADMIN")
 //                                .requestMatchers(HttpMethod.POST, "/api/customers**").hasAnyAuthority("ROLE_ADMIN")
 //                                .requestMatchers(HttpMethod.DELETE, "/api/customers**").hasAnyAuthority("ROLE_ADMIN")
 //                                .requestMatchers(HttpMethod.GET, "/api/auth/getInfo", "/api/auth/ad").hasAnyAuthority("ROLE_ADMIN")

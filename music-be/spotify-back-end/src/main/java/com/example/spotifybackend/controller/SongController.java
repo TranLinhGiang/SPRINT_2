@@ -2,6 +2,7 @@ package com.example.spotifybackend.controller;
 
 import com.example.spotifybackend.dto.SongAndArtistDto;
 import com.example.spotifybackend.model.Artist;
+import com.example.spotifybackend.model.Category;
 import com.example.spotifybackend.model.Song;
 import com.example.spotifybackend.service.IArtistService;
 import com.example.spotifybackend.service.ISongService;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -49,8 +51,9 @@ public class SongController {
 
     @GetMapping("/listPage")
     public ResponseEntity<Page<SongAndArtistDto>> showAllSong(
-            @PageableDefault(value = 6) Pageable pageable
+            @RequestParam(name = "page", defaultValue = "0", required = false) Integer page
     ) {
+        Pageable pageable = PageRequest.of(page, 6);
         Page<Song> songsPage = this.iSongService.getAllSong(pageable);
         Page<SongAndArtistDto> songAndArtistDtoPage = songsPage.map(song -> {
             SongAndArtistDto songAndArtistDto = new SongAndArtistDto();
@@ -72,7 +75,6 @@ public class SongController {
         if (song == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         // Lấy thông tin về nghệ sĩ và hình ảnh từ đối tượng Artist của bài hát
         String artistName = song.getArtist().getName();
         String artistImage = song.getArtist().getImage();
@@ -88,32 +90,16 @@ public class SongController {
 
         return new ResponseEntity<>(songAndArtistDto, HttpStatus.OK);
     }
-
-//    @PostMapping("/add")
-//    public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
-//        String nameArtist = songAndArtistDto.getArtist();
-//        Artist artist = new Artist(nameArtist, songAndArtistDto.getImage());
-//        iArtistService.save(artist);
-//        Artist artist1 = iArtistService.findByName(nameArtist);
-//        Song song= new Song();
-//        BeanUtils.copyProperties(songAndArtistDto, song, "artist");
-//        song.setArtist(artist1);
-//        iSongService.save(song);
-//        return ResponseEntity.ok("ok");
-//    }
 @PostMapping("/add")
 public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistDto, BindingResult bindingResult){
     String nameArtist = songAndArtistDto.getArtist();
-
     // Kiểm tra xem tên ca sĩ đã tồn tại trong cơ sở dữ liệu chưa
     Artist artist = iArtistService.findByName(nameArtist);
-
     // Nếu tên ca sĩ chưa tồn tại, thêm mới ca sĩ vào cơ sở dữ liệu
     if(artist == null) {
         artist = new Artist(nameArtist, songAndArtistDto.getImage());
         iArtistService.save(artist);
     }
-
     // Sau đó, gán đối tượng ca sĩ vào bản ghi của bài hát
     Song song= new Song();
     BeanUtils.copyProperties(songAndArtistDto, song, "artist");
@@ -122,4 +108,19 @@ public ResponseEntity<?> add(@RequestBody @Valid SongAndArtistDto songAndArtistD
 
     return ResponseEntity.ok("ok");
 }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteSong(@PathVariable("id") Integer id) {
+        // Kiểm tra xem bài hát có tồn tại không
+        Song song = iSongService.findById(id);
+        if (song == null) {
+            return new ResponseEntity<>("Bài hát không tồn tại", HttpStatus.NOT_FOUND);
+        }
+
+        // Nếu tồn tại, thì gọi phương thức xóa từ service
+        iSongService.deleteById(id);
+
+        return new ResponseEntity<>("Xóa bài hát thành công", HttpStatus.OK);
+    }
+
+
 }

@@ -20,15 +20,20 @@ public class Account {
     @JoinColumn(name = "id_customer")
     private Customer customer;
 
+    @OneToOne
+    @JoinColumn(name = "id_bill")
+    private Bill bill;
+
     public Account() {
     }
 
-    public Account(Integer id, String username, String password, Role role, Customer customer) {
+    public Account(Integer id, String username, String password, Role role, Customer customer, Bill bill) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
         this.customer = customer;
+        this.bill = bill;
     }
 
     public Integer getId() {
@@ -70,12 +75,12 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    //    @OneToOne()
-//    @JoinColumn(name = "id_admin")
-//    private Admin admin;
-//
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Role> roles = new HashSet<>();
 
+    public Bill getBill() {
+        return bill;
+    }
 
+    public void setBill(Bill bill) {
+        this.bill = bill;
+    }
 }

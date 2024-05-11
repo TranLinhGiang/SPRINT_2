@@ -41,11 +41,17 @@ public class SongService implements ISongService {
 
     @Override
     public Song findById(int id) {
-        return iSongRepository.findById(id);
+        return iSongRepository.findById(id).orElse(null);
     }
 
     @Override
     public void save(Song song) {
         iSongRepository.save(song);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        iSongRepository.deleteById(id);
+    }
+
 }
