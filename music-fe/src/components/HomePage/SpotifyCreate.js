@@ -104,7 +104,8 @@ function CreateSpotify() {
   return (
     <>
       <HeaderAdmin />
-      <div className="container">
+      <div className="background-div-count">
+      <div className="container ">
         <div className="contact3 py-5">
           <div className="row no-gutters">
             <div className="container">
@@ -131,6 +132,7 @@ function CreateSpotify() {
                         title: "",
                         artist: "",
                         image: "",
+                        information:""
                       }}
                       onSubmit={(values) => create(values)}
                     >
@@ -183,6 +185,7 @@ function CreateSpotify() {
                                 </Field>
                               </div>
                             </div>
+                           
 
                             <div className="col-lg-12">
                               <div className="form-group mt-2">
@@ -253,8 +256,9 @@ function CreateSpotify() {
             </div>
           </div>
         </div>
+        </div>
       </div>
-      <Footer />
+      
     </>
   );
 }

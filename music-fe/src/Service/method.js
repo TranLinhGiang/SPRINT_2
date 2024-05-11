@@ -10,9 +10,9 @@ export const getAllSong = async (name) => {
   }
 };
 
-export const getAllSongs = async () => {
+export const getAllSongs = async (page) => {
   try {
-    let rs = await axios.get(`http://localhost:8080/api/song/listPage`);
+    let rs = await axios.get(`http://localhost:8080/api/song/listPage?page=${page}`);
     console.log("Data from backend:", rs.data);
     return rs.data;
   } catch (e) {
@@ -57,6 +57,25 @@ export const login = async (user) => {
   }
 
 }
+
+export const getById = async (id) => {
+  try {
+      const res = await axios.get(`http://localhost:8080/api/song/find/${id}`);
+      return res.data;
+  } catch (e) {
+      console.log(e);
+  }
+}
+
+export const deleteSong = async (id) => {
+  try {
+    const res = await axios.delete(`http://localhost:8080/api/song/delete/${id}`);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 
 
 

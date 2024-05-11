@@ -55,6 +55,14 @@ function HeaderLoginPage({ language }) {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem>
+                <Link to={"/upgrade"}>
+                 <button className="btn-login-logout">
+                  {language === "en" ? "Upgrade" : "Nâng cấp"}
+                </button>
+                </Link>
+              </DropdownItem>
+              <DropdownItem>
+
                 <button className="btn-login-logout" onClick={handleShow}>
                   {language === "en" ? "Logout" : "Đăng xuất"}
                 </button>
@@ -79,14 +87,14 @@ function HeaderLoginPage({ language }) {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            style={{background: "red", color: "black" }}
+            style={{background: "red", color: "white" }}
             onClick={handleClose}
           >
             {language === "en" ? "Close" : "Thoát"}
           </Button>
 
           <Button
-            style={{ color: "black" }}
+            style={{ color: "white" }}
             onClick={() => {
               handleLogout();
             }}

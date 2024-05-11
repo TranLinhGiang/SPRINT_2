@@ -15,6 +15,8 @@ function BodyLoginPage({ language }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
   const [flag, setFlag] = useState(false);
+  const [playCount, setPlayCount] = useState(0); // State để đếm số lần bài hát đã được phát
+
 
   const changleFlag = () => {
     setFlag(!flag);
@@ -54,6 +56,11 @@ function BodyLoginPage({ language }) {
 
     setSelectedSongId(storedSelectedSongId);
     setIsPlaying(storedIsPlaying === 'true');
+    if(localStorage.getItem("role") == "ROLE_ADMIN") {
+navigate("/admin")
+
+      
+    }
   }, []);
 
   const playSelectedSong = (id) => {
@@ -83,11 +90,12 @@ function BodyLoginPage({ language }) {
   setIsPlaying(true);
 };
 
-  useEffect(() => {   // tự động chuyển bài
+  useEffect(() => {   
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.addEventListener("ended", () => {
       setIsPlaying(false);
       setAudioVisible(false); // Ẩn <Audio> khi kết thúc phát nhạc
+      // tự động chuyển bài
       if (songs.length > 0) {
         const currentIndex = songs.findIndex(
           (song) => song.id === selectedSongId
@@ -154,7 +162,7 @@ function BodyLoginPage({ language }) {
                   borderRadius: "4px",
                 }}
               >
-                <h5 style={{ margin: "4px" }}>Danh sách nghệ sĩ ___</h5>
+                <h5 style={{ margin: "4px" }}> {language === "en" ? "List of artists __" : "Danh sách nghệ sĩ __"}</h5>
                 <ol
                   className="ol-scroll"
                   style={{ overflowY: "auto", maxHeight: "467px" }}

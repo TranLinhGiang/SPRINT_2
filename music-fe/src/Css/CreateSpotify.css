@@ -87,3 +87,7 @@
   border-radius: 10px;
   border: solid 1px white;
 }
+.background-div-count{
+  background-image: linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50));
+
+}

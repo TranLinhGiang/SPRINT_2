@@ -1,6 +1,6 @@
 body{
-    /* --bs-body-bg: black; */
-    background-image: linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50));
+    --bs-body-bg: black;
+    /* background-image: linear-gradient(rgb(2, 1, 18), rgb(49, 52, 50)); */
     background-size: cover; 
     background-position: center; 
     padding: 0;

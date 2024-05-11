@@ -57,7 +57,7 @@ function SidebarUser({flag}) {
               className="btn-sidebar-user"
               style={{ position: "relative" }}
             >
-              <p className="market">{size}</p>
+              {/* <p className="market">{size}</p> */}
               <FavoriteBorderIcon
                 style={{ color: "white", width: "100%", height: "35px" }}
               />

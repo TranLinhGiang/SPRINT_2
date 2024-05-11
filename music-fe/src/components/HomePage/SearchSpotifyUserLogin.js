@@ -10,6 +10,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import HomeIcon from "@mui/icons-material/Home";
 import { Audio } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import { ClearOutlined } from '@ant-design/icons';
 
 
 import {
@@ -33,6 +34,27 @@ function SearchSpotifyUserLogin({ language }) {
   const [defaultSongId, setDefaultSongId] = useState(null); // State để lưu id của bài hát mặc định
   const [search, setSearch]= useState("");
   const [doSearch, setDoSearch]= useState(false);
+
+  const handleClear = () => {
+    setSearch(""); // Cập nhật state search về rỗng
+    setDoSearch(!doSearch); // Trigger useEffect để fetch lại danh sách bài hát
+    // Xóa văn bản khỏi trường nhập liệu
+    const inputField = document.getElementById("searchInput");
+    if (inputField) {
+      inputField.value = "";
+    }
+  };
+  const pauseSong = () => {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.pause();
+    setIsPlaying(false);
+  };
+
+  const resumeSong = () => {
+  const audioPlayer = document.getElementById("audioPlayer");
+  audioPlayer.play();
+  setIsPlaying(true);
+};
 
   const handleChangeInput=(event)=>{
       setSearch(event.target.value);
@@ -76,7 +98,16 @@ function SearchSpotifyUserLogin({ language }) {
   useEffect(() => {
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.addEventListener("ended", () => {
-      setIsPlaying(false); // Set isPlaying to false when the audio ends
+      setIsPlaying(false); 
+      // Tự động chuyển bài
+      if (songs.length > 0) {
+        const currentIndex = songs.findIndex(
+          (song) => song.id === selectedSongId
+        );
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSongId = songs[nextIndex].id;
+        playSelectedSong(nextSongId);
+      }
     });
     return () => {
       audioPlayer.removeEventListener("ended", () => {});
@@ -86,7 +117,7 @@ function SearchSpotifyUserLogin({ language }) {
     <>
       <div className="display-search-homepage">
 
-        <div className="col-md-8 col-lg-8 display-flex">
+        <div className="col-md-8 col-lg-8 display-flex" style={{height: '615px'}}>
           {/* Phần Header Start */}
           <div className="div-search-user-login display-search-homepage">
             <div className="col-md-1 col-lg-1">
@@ -100,10 +131,11 @@ function SearchSpotifyUserLogin({ language }) {
             </div>
             <div className="col-md-9 col-lg-9">
               <div>
-                <input type="text" placeholder="Tìm kiếm" className="input-search" onChange={(event)=>{handleChangeInput(event)}}></input>
+                <input id="searchInput" type="text" placeholder="Tìm kiếm" className="input-search" onChange={(event)=>{handleChangeInput(event)}}></input>
                 <button className="btn-search" onClick={()=>{handleSearch()}}>
                   <SearchIcon /> 
                 </button>
+                <button className="btn-clear" onClick={()=>{handleClear()}}><ClearOutlined /></button>
               </div>
             </div>
             <div className="col-md-2 col-lg-2">
@@ -113,6 +145,13 @@ function SearchSpotifyUserLogin({ language }) {
                     <FaRegUserCircle className="icon-user" /> <span style={{color:'white'}}>{username}</span>
                   </DropdownToggle>
                   <DropdownMenu>
+                  <DropdownItem>
+                <Link to={"/upgrade"}>
+                 <button className="btn-login-logout">
+                  {language === "en" ? "Upgrade" : "Nâng cấp"}
+                </button>
+                </Link>
+              </DropdownItem>
                     <DropdownItem>
                       <button className="btn-login-logout" onClick={handleShow}>
                         {language === "en" ? "Logout" : "Đăng xuất"}
@@ -141,7 +180,10 @@ function SearchSpotifyUserLogin({ language }) {
                 <h5 style={{ margin: "4px", color: "white" }}>
                   Danh sách nghệ sĩ ___
                 </h5>
-
+                
+                {songs.length === 0 ? ( // Check if songs array is empty
+              <p style={{ color: "white" }}>Không có bài hát được tìm thấy.</p>
+            ) : (
                 <ol
                   className="ol-scroll"
                   style={{
@@ -190,6 +232,7 @@ function SearchSpotifyUserLogin({ language }) {
                     }
                   )}
                 </ol>
+                 )}
               </div>
               {/* Danh sách nghệ sĩ End */}
             </div>
@@ -256,7 +299,17 @@ function SearchSpotifyUserLogin({ language }) {
                             }}
                           />
                           <div>
-                            <div className="artist-name">{song.title}</div>
+                          <div
+                              className="artist-name"
+                              style={{
+                                color:
+                                  selectedSongId === song.id
+                                    ? "green"
+                                    : "white",
+                              }}
+                            >
+                              {song.title}
+                            </div>
                             <div className="artist-name">{song.artist}</div>
                           </div>
                         </div>
@@ -282,14 +335,14 @@ function SearchSpotifyUserLogin({ language }) {
             />
           </div>
 
-          <div className={"information"}>
+          {/* <div className={"information"}>
             <p className="p-information">
               Thông tin ca sĩThông tin ca sĩThông tin ca sĩThông tin ca sĩThông
               tin ca sĩThông tin ca sĩThông tin ca sĩThông tin ca sĩThông tin ca
               sĩThông tin ca sĩThông tin ca sĩThông tin ca sĩThông tin ca
               sĩThông tin ca sĩ
             </p>
-          </div>
+          </div> */}
         </div>
 
         <Modal show={show} onHide={handleClose}>
@@ -336,6 +389,8 @@ function SearchSpotifyUserLogin({ language }) {
                 top: "5px",
               }}
               id="audioPlayer"
+              onPause={pauseSong} // Khi tạm dừng bài hát
+              onPlay={resumeSong} // Khi tiếp tục phát bài hát
             />
            
           </div>

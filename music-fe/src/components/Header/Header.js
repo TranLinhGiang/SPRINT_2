@@ -41,12 +41,14 @@ function Header({ language }) {
       if (resp) {
         localStorage.setItem("token", resp.token);
         localStorage.setItem("username", resp.username);
+        localStorage.setItem("role", resp.authorities[0].authority);
         toast.success(`Xin chào ${username}`);
         setShow(false);
         navi("/loginPage");
       } else {
-        setErr("Tài khoản hoặc mật khẩu không chính xác");
+        setErr(language === "en" ? "Username or password incorrect" : "Tên đăng nhập hoặc mật khẩu không chính xác");
       }
+      
     } catch (e) {
       console.log(e);
     }

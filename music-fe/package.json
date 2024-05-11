@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.3.7",
     "@emailjs/browser": "^4.3.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -13,6 +14,7 @@
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.15",
     "@nextui-org/react": "^2.2.10",
+    "@paypal/react-paypal-js": "^8.3.0",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.2.3",
     "@sweetalert2/themes": "^5.0.16",

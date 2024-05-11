@@ -77,6 +77,29 @@ function Favourite() {
     setIsPlaying(true);
     setAudioVisible(true); // Hiển thị <Audio> khi tiếp tục phát bài hát
   };
+
+  const removeFromFavourite = async (songIdToRemove) => {
+    try {
+      // Lấy danh sách yêu thích từ Local Storage
+      let favouriteList = localStorage.getItem("favourite").split(",");
+      // Xóa id bài hát khỏi danh sách yêu thích
+      favouriteList = favouriteList.filter((id) => id !== songIdToRemove);
+      // Lưu lại danh sách yêu thích mới vào Local Storage
+      localStorage.setItem("favourite", favouriteList.join(","));
+  
+      // Cập nhật state songs để render lại danh sách yêu thích trên giao diện
+      const updatedSongs = songs.filter((song) => song.id !== songIdToRemove);
+      setSongs(updatedSongs);
+  
+      // Gọi hàm changleFlag để cập nhật lại giao diện
+      changleFlag();
+    } catch (error) {
+      console.error("Error removing from favourite:", error);
+    }
+  };
+  
+
+
   useEffect(() => {   // tự động chuyển bài
     const audioPlayer = document.getElementById("audioPlayer");
     audioPlayer.addEventListener("ended", () => {
@@ -104,7 +127,9 @@ function Favourite() {
     <>
       <div className="display-flex-favourite">
         <div className="col-sm-1 col-md-1 col-lg-1">
+          <div className="sidebar-favourite">
           <SidebarUser />
+          </div>   
         </div>
         <div
           className="col-sm-11 col-md-11 col-lg-11 display-flex-favourite"
@@ -200,7 +225,7 @@ function Favourite() {
                         </button>
                       </td>
                       <td style={{ color: "white" }}>
-                        <button className="btn-favourite">
+                        <button className="btn-favourite" onClick={() => removeFromFavourite(item.id)}>
                           <FavoriteBorder />
                         </button>
                       </td>
@@ -213,7 +238,6 @@ function Favourite() {
             </div>
           </div>
           <div className="col-sm-4 col-lg-4">
-            <br />
             <br />
             <br />
             <br />

@@ -1,6 +1,7 @@
 
 .display-body-admin{
     display: flex;
+    min-height: 540px;
 }
 .flex-wrap{
     flex-wrap: wrap;
@@ -13,4 +14,25 @@
     padding: 0;
     margin: 0;
     
+}
+.input-search-admin{
+    margin: 4px;
+    border: none;
+    border: solid 1px white;
+    background: none;
+    color: white;
+    border-radius: 3px;
+}
+.button-search-admin{
+    border: none;
+    border-radius: 3px;
+}
+.button-cleaer-admin{
+    margin: 3px;
+    border: none;
+    width: 33px;
+    height: 28px;
+    position: relative;
+    top: 1px;
+    border-radius: 3px;
 }
