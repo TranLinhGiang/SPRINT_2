@@ -4,9 +4,11 @@ import * as method from "../../Service/method";
 import Card from 'react-bootstrap/Card';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite'; // Import icon màu xanh
+import RepeatOneIcon from '@mui/icons-material/RepeatOne';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { addFavourite, deleteFavourite } from './../redux/slide/CardSlide';
+import { RepeatOne } from "@mui/icons-material";
 
 function DetailLoginPage({ selectedSongId, songs, playSelectedSong, changleFlag }) {
 
@@ -36,6 +38,8 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong, changleFlag 
 
         fetchData();
     }, [selectedSongId]);
+
+    
 
     // Tìm bài hát tương ứng với selectedSongId
     const selectedSong = songs?.find(song => song.id === selectedSongId);
@@ -107,6 +111,9 @@ function DetailLoginPage({ selectedSongId, songs, playSelectedSong, changleFlag 
                                 {isFavorited ? <FavoriteIcon className="heart" /> : <FavoriteBorderIcon className="heart" />}
                             </button>
                         )}
+                        <button className="btn-come-back">
+                            <RepeatOne/>
+                        </button>
                     </Card.Body>
                 </Card>
 

@@ -36,3 +36,10 @@
 .heart{
     color: white;
 }
+.btn-come-back{
+    position: relative;
+    left: 6%;
+    border: none;
+    background: none;
+    color: white;
+}

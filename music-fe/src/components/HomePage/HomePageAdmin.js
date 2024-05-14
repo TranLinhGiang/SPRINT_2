@@ -19,6 +19,8 @@ function HomePageAdmin() {
   const [audioVisible, setAudioVisible] = useState(false); // State để kiểm tra hiển thị của <Audio>
   const [search, setSearch] = useState("");
   const [doSearch, setDoSearch] = useState(false);
+  const [isLooping, setIsLooping] = useState(false); // State để lưu trữ trạng thái lặp lại bài hát
+
 
 
 

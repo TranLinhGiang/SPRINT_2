@@ -3,7 +3,8 @@
   border-radius: 3px;
   color: white;
   border: none;
-  background: green;
+  background-image: linear-gradient(rgb(53, 52, 52), #1d1c1c);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .album-image {
   height: 40px;
@@ -15,4 +16,16 @@ th {
 }
 td {
   text-align: center;
+}
+.div-detail-admin{
+  background: #050414;
+    border-radius: 4px;
+    height: 100%;
+}
+.button-sideba-admin{
+  padding: 6px;
+}
+.icon-list-admin{
+  height: 46px;
+    width: 33px;
 }
